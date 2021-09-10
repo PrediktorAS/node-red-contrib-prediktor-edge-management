@@ -1,0 +1,1 @@
+# node-red-contrib-prediktor-edge-management
