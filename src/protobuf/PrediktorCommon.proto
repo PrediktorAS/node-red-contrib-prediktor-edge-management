@@ -1,0 +1,92 @@
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+option csharp_namespace = "Prediktor.Common";
+
+package PrediktorCommon;
+
+// Shared messages for Prediktor gRPC services.
+
+message ByteStream {
+	bytes bytes = 1;
+}
+
+message StringArray {
+	repeated string arr = 1;
+}
+
+message ResultArray {
+	repeated Result results = 1;
+}
+
+message Result {
+	bool success = 1;
+	string error = 2;
+	string errorDetails = 3;
+	int32 errorCode = 4;
+}
+
+message BooleanReply {
+	bool value = 1;
+}
+
+message StringResult {
+	string value = 1;
+	Result result = 2;
+}
+
+message BrowseFilter {
+	string value = 1;
+}
+
+message InstanceIds {
+	bool success = 1;
+	string error = 2;
+	repeated InstanceId ids = 3;
+}
+
+message InstanceId {
+	string parentId = 1;
+	string id = 2;
+}
+message InstanceInfos {
+	repeated bool success = 1;
+	repeated string error = 2;
+	repeated InstanceInfo infos = 3;
+}
+
+message InstanceInfo {
+	InstanceId id = 1;
+	string name = 2;
+	string fullName = 3;
+	string description = 4;
+    bool isRemovable = 5;
+	bool canHaveChildren = 6;
+}
+
+message PropertyCollection {
+	repeated Properties PropertiesArray = 1;
+	bool Success = 2;
+	string Error = 3;
+}
+
+message Properties {
+	repeated Property PropArray = 1;
+	bool Success = 2;
+	string Error = 3;
+}
+
+message Property {
+	string Name = 1;
+	google.protobuf.Any Value = 2;
+	bool Readonly = 3;
+	string Description = 4;
+	uint32 Id = 5;
+	bool Success = 6;
+	string Error = 7;
+}
+
+message PropertiesWriteRequest {
+	string Id = 1;
+	Properties Properties = 2;
+}

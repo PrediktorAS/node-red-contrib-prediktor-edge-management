@@ -1,0 +1,144 @@
+﻿syntax = "proto3";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "ConfigurationRepository.proto";
+import "PrediktorCommon.proto";
+
+option csharp_namespace = "Prediktor.EdgeManagement";
+
+package EdgeManagement;
+
+// The Prediktor Edge Management definition.
+service EdgeManagement {
+
+  rpc ping (google.protobuf.Empty) returns (google.protobuf.StringValue);
+  rpc info(google.protobuf.Empty) returns (EdgeManagementDetails);
+
+  //Upload a namespace nodeset from a Hive instance to Configuration Respository.
+  rpc uploadNamespace (UploadNamespaceRequest) returns (PrediktorCommon.Result);
+  //Upload a namespace db-file from a Hive instance. (TODO: deprecate this apis spesific version)
+  rpc uploadNamespaceDb (UploadNamespaceRequest) returns (PrediktorCommon.Result);
+
+  //Compare a namespace backup from Configuration Respository with a running Hive's namespace
+  rpc compareNamespaces (NamespaceCompareRequest) returns (stream ConfigurationRepository.NamespaceCompareResult);
+
+  //Restore a namespace backup from Configuration Respository to a Hive
+  rpc restoreNamespace (RestoreNamespaceRequest) returns (PrediktorCommon.StringResult);
+
+  
+  //Upload a Hive configuration backup from a running Hive instance.
+  rpc uploadHiveConfig (UploadHiveConfigRequest) returns (PrediktorCommon.Result);
+
+  //Compare a configuration backup from Configuration Respository with a running Hive
+  rpc compareHiveConfig (HiveConfigCompareRequest) returns (stream ConfigurationRepository.HiveConfigCompareResult); 
+
+  //Restore a configuration backup from Configuration Respository to a Hive
+  rpc restoreHiveConfig(RestoreHiveConfigRequest) returns (PrediktorCommon.StringResult);
+
+
+  //Upload a Variable Mappings backup for a namspace to Configuration Respository
+  rpc uploadVariableMappings(UploadVariableMappingsRequest) returns (PrediktorCommon.Result);
+  
+  //Compare a Variable Mappings backup from Configuration Respository to what is currently configured in a Hive module
+  rpc compareVariableMappings (CompareVariableMappingsRequest) returns (stream ConfigurationRepository.CompareVariableMappingsResult);
+
+  //Restore a Variable Mappings backup from Configuration Respository to a namespace in a Hive
+  //rpc RestoreVariableMappings TODO: add this method
+
+}
+
+message UploadVariableMappingsRequest {
+
+}
+
+message HiveConfigCompareRequest {
+	string configRepoUri = 1;
+	string instanceName = 2;
+	string revisionId = 3;
+}
+
+message RestoreNamespaceRequest {
+	string configRepoUri = 1;
+	string namespaceUri = 2;
+	string revisionId = 3;
+	PrediktorCommon.StringArray checkMethods = 4;
+	bool overrideErrors = 5;
+	bool isNodeSetChanges = 6;
+	string hiveName = 7;
+}
+
+message RestoreHiveConfigRequest {
+	string configRepoUri = 1;
+	string revisionId = 2;
+	bool startHiveWhenDone = 3;
+}
+
+message UploadHiveConfigRequest {
+	string configRepoUri = 1;
+	string configName = 2;
+	string projectId = 3;
+	string description = 4;
+	string version = 5;
+	ApisConfigInfo apisConfig = 100;
+}
+
+message NamespaceCompareRequest {
+
+	string namespaceUri = 1;	
+	string hiveName = 2;
+
+	oneof compareData {
+		ConfigRepoNamespaceCompare configRepoNamespaceCompare = 3;
+		FileNamespaceCompare fileNamespaceCompare = 4;
+	}
+}
+
+message ConfigRepoNamespaceCompare {
+
+	string configRepoUri = 1;
+	string revisionId = 2;
+	bool excludeValueSourceAttributes = 3;	
+ 	ConfigurationRepository.RevisionTypeEnum revisionType = 4; // namespaceNodeset or namespaceDatabase
+}
+
+message FileNamespaceCompare {
+
+	string fileUri = 1;
+}
+
+message NamespaceCompareLocallyRequest {
+	string namespaceUri = 1;
+	string nodesetFile = 2;
+	string hiveName = 3;
+}
+
+message UploadNamespaceRequest {
+	string namespaceUri = 1;
+	string configRepoUri = 2;
+	string projectId = 3;
+	string description = 4;
+	string version = 5;
+	string hiveName = 6;
+}
+
+message ApisConfigInfo {
+	bool honeystore = 1;
+// bool Chronical = 2;
+	bool configOnly = 3;
+	string hiveInstanceName = 4;
+}
+
+message CompareVariableMappingsRequest {
+	string configRepoUri = 1;
+	string revisionId = 2;
+	string moduleName = 3;
+	string hiveName = 4;
+}
+
+message EdgeManagementDetails {
+	string version = 1;
+	string minVersion = 2;
+	string vendor = 3;
+	string url = 4;
+}
+

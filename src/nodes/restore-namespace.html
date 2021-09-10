@@ -1,0 +1,117 @@
+<script type="text/javascript">
+  RED.nodes.registerType('restore-namespace', {
+    category: 'Prediktor Edge Management',
+    color: '#E8E6E2',
+    defaults: {
+      name: {
+        value: ""
+      },
+      server: {
+        value: "",
+        type: "prediktor-edge-management"
+      },
+      configRepoUri: {
+        value: ""
+      },
+      namespaceUri: {
+        value: ""
+      },
+      revisionId: {
+        value: ""
+      },
+      checkMethods: {
+        value: ""
+      },
+      overrideErrors: {
+        value: ""
+      },
+      isNodeSetChanges: {
+        value: false
+      },
+      hiveName: {
+        value: ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "prediktor.png",
+    label: function() {
+      return this.name || "Restore Namespace";
+    }
+  });
+</script>
+
+<script type="text/html" data-template-name="restore-namespace">
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-bookmark"></i> Server</label>
+    <input type="text" id="node-input-server" placeholder="Server URL (ex. localhost:5001)">
+  </div>
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-configRepoUri"><i class="fa fa-tag"></i> Config Repo URI</label>
+    <input type="text" id="node-input-configRepoUri" placeholder="cr://localhost:8237">
+  </div>
+  <div class="form-row">
+    <label for="node-input-namespaceUri"><i class="fa fa-tag"></i> Namespace URI</label>
+    <input type="text" id="node-input-namespaceUri" placeholder="http://bkk.no/Sites/Dale">
+  </div>
+  <div class="form-row">
+    <label for="node-input-revisionId"><i class="fa fa-tag"></i> Revision Id</label>
+    <input type="text" id="node-input-revisionId" placeholder="Revision Id">
+  </div>
+  <div class="form-row">
+    <label for="node-input-checkMethods"><i class="fa fa-tag"></i> Check Methods</label>
+    <select id="node-input-checkMethods" multiple>
+      <option value="All nodes shall be referenced atleast once in addition to typedef reference">
+        All nodes shall be referenced atleast once in addition to typedef reference
+      </option>
+      <option value="All nodes shall have a typedef reference">
+        All nodes shall have a typedef reference
+      </option>
+      <option value="All nodes in references and datatypes shall exist">
+        All nodes in references and datatypes shall exist</option>
+      <option value="All referenced namespace uris must be available on the server">
+        All referenced namespace uris must be available on the server
+      </option>
+      <option value="Nodes rejected because of mismatch in uri configured on namespace and imported xml">
+        Nodes rejected because of mismatch in uri configured on namespace and imported xml
+      </option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-overrideErrors"><i class="fa fa-tag"></i> Override Errors</label>
+    <input type="checkbox" id="node-input-overrideErrors" placeholder="False">
+  </div>
+  <div class="form-row">
+    <label for="node-input-isNodeSetChanges"><i class="fa fa-tag"></i> Is Nodeset Changes</label>
+    <input type="checkbox" id="node-input-isNodeSetChanges" placeholder="False">
+  </div>
+  <div class="form-row">
+    <label for="node-input-hiveName"><i class="fa fa-tag"></i> Hive name</label>
+    <input type="text" id="node-input-hiveName" placeholder="ApisHive">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="restore-namespace">
+  <p>Restores a namespace based on an uploaded Nodeset file</p>
+  <h3>Details</h3>
+  <p>
+    First upload a Nodeset2 XML file to a revision node.
+    Use the Revision nodes ID as input to this node.
+    ConfigRepoURI should have the following format:
+    cr://<ip addr>:<port>
+  </p>
+  Fileds that can be overridden
+  <ul>
+    <li>configRepoUri</li>
+    <li>namespaceUri</li>
+    <li>revisionId</li>
+    <li>checkMethods</li>
+    <li>overrideErrors</li>
+    <li>isNodeSetChanges</li>
+    <li>hiveName</li>
+  </ul>
+</script>
