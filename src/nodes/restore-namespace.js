@@ -4,24 +4,23 @@ module.exports = function(RED) {
     RED.nodes.createNode(this, config);
     var node = this;
     this.server = RED.nodes.getNode(config.server);
+    this.configRepoUri = config.configRepoUri;
+    this.namespaceUri = config.namespaceUri;
+    this.revisionId = config.revisionId;
+    this.checkMethods = config.checkMethods;
+    this.overrideErrors = config.overrideErrors;
+    this.isNodeSetChanges = config.isNodeSetChanges;
+    this.hiveName = config.hiveName;
 
     node.on('input', function(msg) {
-      const configRepoUri = msg.configRepoUri || config.configRepoUri;
-      const namespaceUri = msg.namespaceUri || config.namespaceUri;
-      const revisionId = msg.revisionId || config.revisionId;
-      const checkMethods = msg.checkMethods || config.checkMethods;
-      const overrideErrors = msg.overrideErrors || config.overrideErrors;
-      const isNodeSetChanges = msg.isNodeSetChanges || config.isNodeSetChanges;
-      const hiveName = msg.hiveName || config.hiveName;
-
       let restoreNamespaceRequest = {
-        configRepoUri: configRepoUri,
-        namespaceUri: namespaceUri,
-        revisionId: revisionId,
-        checkMethods: checkMethods,
-        overrideErrors: overrideErrors,
-        isNodeSetChanges: isNodeSetChanges,
-        hiveName: hiveName
+        configRepoUri: msg.configRepoUri || node.configRepoUri,
+        namespaceUri: msg.namespaceUri || node.namespaceUri,
+        revisionId: msg.revisionId || config.revisionId,
+        checkMethods: msg.checkMethods || config.checkMethods,
+        overrideErrors: msg.overrideErrors || config.overrideErrors,
+        isNodeSetChanges: msg.isNodeSetChanges || config.isNodeSetChanges,
+        hiveName: msg.hiveName || config.hiveName
       };
 
       const url = node.server.host + ":" + node.server.port;

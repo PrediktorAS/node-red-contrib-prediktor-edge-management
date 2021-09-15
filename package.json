@@ -11,17 +11,26 @@
         "prediktor",
         "node-red"
     ],
+    "scripts": {
+        "test": "mocha \"test/**/*_spec.js\""
+    },
     "author": "Elias Bakken",
     "license": "Apache-2.0",
     "node-red": {
         "nodes": {
             "ping-namespace": "src/nodes/ping-namespace.js",
             "restore-namepace": "src/nodes/restore-namespace.js",
+            "compare-namespaces": "src/nodes/compare-namespaces.js",
             "prediktor-edge-management": "src/nodes/prediktor-edge-management.js"
         }
     },
     "dependencies": {
         "@grpc/grpc-js": "^1.3.7",
         "@grpc/proto-loader": "^0.6.4"
+    },
+    "devDependencies": {
+        "node-red": "^0.18.4",
+        "node-red-node-test-helper": "^0.1.8",
+        "mocha": "^9.1.1"
     }
 }

@@ -10,6 +10,9 @@
         value: "",
         type: "prediktor-edge-management"
       },
+      test: {
+        value: "test"
+      },
       configRepoUri: {
         value: ""
       },
@@ -43,12 +46,12 @@
 
 <script type="text/html" data-template-name="restore-namespace">
   <div class="form-row">
-    <label for="node-input-server"><i class="fa fa-bookmark"></i> Server</label>
-    <input type="text" id="node-input-server" placeholder="Server URL (ex. localhost:5001)">
-  </div>
-  <div class="form-row">
     <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
     <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-bookmark"></i> Server</label>
+    <input type="text" id="node-input-server" placeholder="Server URL (ex. localhost:5001)">
   </div>
   <div class="form-row">
     <label for="node-input-configRepoUri"><i class="fa fa-tag"></i> Config Repo URI</label>
@@ -90,7 +93,7 @@
     <input type="checkbox" id="node-input-isNodeSetChanges" placeholder="False">
   </div>
   <div class="form-row">
-    <label for="node-input-hiveName"><i class="fa fa-tag"></i> Hive name</label>
+    <label for="node-input-hiveName"><i class="fa fa-archive"></i> Hive name</label>
     <input type="text" id="node-input-hiveName" placeholder="ApisHive">
   </div>
 </script>
@@ -102,9 +105,9 @@
     First upload a Nodeset2 XML file to a revision node.
     Use the Revision nodes ID as input to this node.
     ConfigRepoURI should have the following format:
-    cr://<ip addr>:<port>
+    cr://&lt;ip addr&gt;:&lt;port&gt;
   </p>
-  Fileds that can be overridden
+  Fields that can be overridden
   <ul>
     <li>configRepoUri</li>
     <li>namespaceUri</li>

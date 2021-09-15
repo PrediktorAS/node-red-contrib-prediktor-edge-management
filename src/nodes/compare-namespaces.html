@@ -1,0 +1,146 @@
+<script type="text/javascript">
+  RED.nodes.registerType('compare-namespaces', {
+    category: 'Prediktor Edge Management',
+    color: '#E8E6E2',
+    defaults: {
+      name: {
+        value: ""
+      },
+      server: {
+        value: "",
+        type: "prediktor-edge-management"
+      },
+      namespaceUri: {
+        value: ""
+      },
+      hiveName: {
+        value: ""
+      },
+      compareDataType: {
+        value: "configRepoNamespaceCompare"
+      },
+      configRepoUri: {
+        value: ""
+      },
+      revisionId: {
+        value: ""
+      },
+      excludeValueSourceAttributes: {
+        value: false
+      },
+      revisionType: {
+        value: 1
+      },
+      fileUri: {
+        value: ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "prediktor.png",
+    label: function() {
+      return this.name || "Compare Namespaces";
+    },
+    oneditprepare: function() {
+      $(".row-fileNamespaceCompare").hide();
+      $(".row-configRepoNamespaceCompare").hide();
+      $("#node-input-compareDataType").on("change", function() {
+        if (this.value == "configRepoNamespaceCompare") {
+          $(".row-configRepoNamespaceCompare").show();
+          $(".row-fileNamespaceCompare").hide();
+        } else if (this.value == "fileNamespaceCompare") {
+          $(".row-configRepoNamespaceCompare").hide();
+          $(".row-fileNamespaceCompare").show();
+        }
+      });
+    }
+  });
+</script>
+
+<script type="text/html" data-template-name="compare-namespaces">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-server"></i> Server</label>
+    <input type="text" id="node-input-server" placeholder="Server URL (ex. localhost:5001)">
+  </div>
+  <div class="form-row">
+    <label for="node-input-namespaceUri"><i class="fa fa-link"></i> Namespace URI</label>
+    <input type="text" id="node-input-namespaceUri" placeholder="http://bkk.no/Sites/Dale">
+  </div>
+  <div class="form-row">
+    <label for="node-input-hiveName"><i class="fa fa-archive"></i> Hive name</label>
+    <input type="text" id="node-input-hiveName" placeholder="ApisHive">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-compareDataType"><i class="fa fa-tag"></i> Compare Data Type</label>
+    <select id="node-input-compareDataType">
+      <option value="configRepoNamespaceCompare">
+        Config Repo
+      </option>
+      <option value="fileNamespaceCompare">
+        File
+      </option>
+    </select>
+  </div>
+
+  <div class="form-row row-configRepoNamespaceCompare">
+    <label for="node-input-configRepoUri"><i class="fa fa-link"></i> Config Repo URI</label>
+    <input type="text" id="node-input-configRepoUri" placeholder="cr://localhost:8237">
+  </div>
+  <div class="form-row row-configRepoNamespaceCompare">
+    <label for="node-input-revisionId"><i class="fa fa-tag"></i> Revision Id</label>
+    <input type="text" id="node-input-revisionId" placeholder="Revision Id">
+  </div>
+  <div class="form-row row-configRepoNamespaceCompare">
+    <label for="node-input-excludeValueSourceAttributes"><i class="fa fa-tag"></i> Exclude Value Source Attributes</label>
+    <input type="checkbox" id="node-input-excludeValueSourceAttributes" placeholder="False">
+  </div>
+  <div class="form-row row-configRepoNamespaceCompare">
+    <label for="node-input-revisionType"><i class="fa fa-tag"></i> Revision Type</label>
+    <select id="node-input-revisionType">
+      <option value="1">
+        Namespace Nodeset Revision
+      </option>
+      <option value="3">
+        Namespace Database Revision
+      </option>
+    </select>
+  </div>
+  <div class="form-row row-fileNamespaceCompare">
+    <label for="node-input-fileUri"><i class="fa fa-link"></i> File Uri</label>
+    <input type="text" id="node-input-fileUri" placeholder="File URI">
+  </div>
+</script>
+
+
+
+<script type="text/html" data-help-name="compare-namespaces">
+  <p>Restores a namespace based on an uploaded Nodeset file</p>
+  <h3>Details</h3>
+  <p>
+    First upload a Nodeset2 XML file to a revision node.
+    Use the Revision nodes ID as input to this node.
+    ConfigRepoURI should have the following format:
+    cr://&lt;ip addr&gt;:&lt;port&gt;
+  </p>
+  Fields that can be overridden
+  <ul>
+    <li>namespaceUri</li>
+    <li>hiveName</li>
+  </ul>
+  And also one of these:
+  <ul>
+    <li>configRepoUri: string</li>
+    <li>revisionId: string</li>
+    <li>excludeValueSourceAttributes: bool</li>
+    <li>revisionType: int</li>
+  </ul>
+  Or this:
+  <ul>
+    <li>fileUri: String</li>
+  </ul>
+</script>
