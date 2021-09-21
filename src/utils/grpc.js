@@ -3,7 +3,6 @@ const grpc = require("@grpc/grpc-js");
 const loader = require("@grpc/proto-loader");
 
 protoFileName = __dirname+"/../protobuf/EdgeManagement.proto";
-protoFileName2 = __dirname+"/../protobuf/ConfigurationRepository.proto";
 
 const options = {
   keepCase: true,
@@ -24,6 +23,5 @@ function getClient(url){
 }
 
 module.exports = {
-    getClient: getClient,
-    getClient2: getClient2
+    getClient: getClient
 }
