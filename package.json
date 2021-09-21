@@ -20,7 +20,6 @@
         "nodes": {
             "ping-namespace": "src/nodes/ping-namespace.js",
             "restore-namepace": "src/nodes/restore-namespace.js",
-            "compare-namespaces": "src/nodes/compare-namespaces.js",
             "prediktor-edge-management": "src/nodes/prediktor-edge-management.js"
         }
     },
