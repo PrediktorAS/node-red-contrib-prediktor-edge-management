@@ -26,8 +26,6 @@ module.exports = function(RED) {
       const url = node.server.host + ":" + node.server.port;
       const client = utils.getClient(url);
 
-      console.log(restoreNamespaceRequest);
-
       client.restoreNamespace(restoreNamespaceRequest, function(err, data) {
         msg.payload = data;
         msg.error = err;
