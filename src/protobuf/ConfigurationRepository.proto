@@ -37,11 +37,11 @@ message NodeId {
 }
 
 message NodeIds {
-	repeated NodeId projectId = 1;
+	repeated NodeId ids = 1;
 	PrediktorCommon.Result result = 2;
 }
 
-message NodeRequest {
+message NodeRequest { 
 	NodeId parentId = 1;
 	NodeId id = 2;
 	string name = 3;
