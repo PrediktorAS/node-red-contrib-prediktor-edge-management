@@ -1,0 +1,86 @@
+<script type="text/javascript">
+  RED.nodes.registerType('restore-variable-mappings', {
+    category: 'Prediktor Edge Management',
+    color: '#E8E6E2',
+    defaults: {
+      name: {
+        value: ""
+      },
+      server: {
+        value: "",
+        type: "prediktor-edge-management"
+      },
+      configRepoUri: {
+        value: ""
+      },
+      revisionId: {
+        value: ""
+      },
+      transferEu: {
+        value: false
+      },
+      hiveName: {
+        value: ""
+      },
+      moduleName: {
+        value: ""
+      }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "prediktor.png",
+    label: function() {
+      return this.name || "Restore Variable Mappings";
+    }
+  });
+</script>
+
+<script type="text/html" data-template-name="restore-variable-mappings">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-server"><i class="fa fa-bookmark"></i> Server</label>
+    <input type="text" id="node-input-server" placeholder="Server URL (ex. localhost:5001)">
+  </div>
+  <div class="form-row">
+    <label for="node-input-configRepoUri"><i class="fa fa-tag"></i> Config Repo URI</label>
+    <input type="text" id="node-input-configRepoUri" placeholder="cr://localhost:8237">
+  </div>
+  <div class="form-row">
+    <label for="node-input-revisionId"><i class="fa fa-tag"></i> Revision Id</label>
+    <input type="text" id="node-input-revisionId" placeholder="Revision Id">
+  </div>
+  <div class="form-row">
+    <label for="node-input-transferEu"><i class="fa fa-tag"></i> Transfer Engineering Units</label>
+    <input type="checkbox" id="node-input-overrideErrors" placeholder="False">
+  </div>
+  <div class="form-row">
+    <label for="node-input-hiveName"><i class="fa fa-archive"></i> Hive name</label>
+    <input type="text" id="node-input-hiveName" placeholder="ApisHive">
+  </div>
+  <div class="form-row">
+    <label for="node-input-moduleName"><i class="fa fa-archive"></i> Module name</label>
+    <input type="text" id="node-input-moduleName" placeholder="ApisModule">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="restore-variable-mappings">
+  <p>Restores Variable Mappings based on an uploaded file</p>
+  <h3>Details</h3>
+  <p>
+    First upload a Variable Mappings file to a revision node.
+    Use the Revision nodes ID as input to this node.
+    ConfigRepoURI should have the following format:
+    cr://&lt;ip addr&gt;:&lt;port&gt;
+  </p>
+  Fields that can be overridden
+  <ul>
+    <li>configRepoUri</li>
+    <li>revisionId</li>
+    <li>transferEu</li>
+    <li>hiveName</li>
+    <li>moduleName</li>
+  </ul>
+</script>

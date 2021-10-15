@@ -43,12 +43,25 @@ service EdgeManagement {
   rpc compareVariableMappings (CompareVariableMappingsRequest) returns (stream ConfigurationRepository.CompareVariableMappingsResult);
 
   //Restore a Variable Mappings backup from Configuration Respository to a namespace in a Hive
-  //rpc RestoreVariableMappings TODO: add this method
+  rpc restoreVariableMappings(RestoreVariableMappingsRequest) returns (PrediktorCommon.Result);
 
 }
 
-message UploadVariableMappingsRequest {
+message RestoreVariableMappingsRequest {
+	string configRepoUri = 1;
+	string revisionId = 2;
+	bool transferEu = 3;
+	string hiveName = 4;
+	string moduleName = 5;
+}
 
+message UploadVariableMappingsRequest {
+	string configRepoUri = 1;
+	string storeId = 2;
+	string description = 3;
+	string version = 4;
+	string moduleName = 5;
+	string hiveName = 6;
 }
 
 message HiveConfigCompareRequest {
@@ -76,7 +89,7 @@ message RestoreHiveConfigRequest {
 message UploadHiveConfigRequest {
 	string configRepoUri = 1;
 	string configName = 2;
-	string projectId = 3;
+	string storeId = 3;
 	string description = 4;
 	string version = 5;
 	ApisConfigInfo apisConfig = 100;
@@ -115,7 +128,7 @@ message NamespaceCompareLocallyRequest {
 message UploadNamespaceRequest {
 	string namespaceUri = 1;
 	string configRepoUri = 2;
-	string projectId = 3;
+	string storeId = 3;
 	string description = 4;
 	string version = 5;
 	string hiveName = 6;
