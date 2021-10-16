@@ -1,5 +1,5 @@
 var helper = require("node-red-node-test-helper");
-var restoreNamespace = require("../src/nodes/restore-variable-mappings.js");
+var restoreVariableMappings = require("../src/nodes/restore-variable-mappings.js");
 
 describe('restore-variable-mappings Node', function() {
 
@@ -10,7 +10,7 @@ describe('restore-variable-mappings Node', function() {
   it('should be loaded', function(done) {
     var flow = [{
       id: "n1",
-      type: "restore-namespace",
+      type: "restore-variable-mappings",
       name: "The One Name",
       configRepoUri: "The Magnificent Repo URI",
       revisionId: "The Best Revision",
