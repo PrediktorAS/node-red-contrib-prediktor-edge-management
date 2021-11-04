@@ -30,6 +30,8 @@ service ConfigurationRepository {
   rpc compareHiveConfig (HiveConfigCompareRequest) returns (stream HiveConfigCompareResult);
   rpc compareVariableMappings (RevisionCompareRequest) returns (stream CompareVariableMappingsResult);
 
+  rpc subscribe (google.protobuf.Empty) returns (stream CrEventInfo);
+
 }
 
 message NodeId {
@@ -86,7 +88,7 @@ message NodeDetail {
 }
 
 message NodeData {
-	ConfigProjectTypeEnum type = 1;
+	NodeTypeEnum type = 1;
 }
 
 message RevisionData {
@@ -98,18 +100,18 @@ message RevisionData {
 }
 
 //Nodes (folders) and Stores
-enum ConfigProjectTypeEnum {
+enum NodeTypeEnum {
 	undefined = 0;
-	node = 1;
-	namespaceNodeset = 2;
-	hiveConfiguration = 3;
-	namespaceDatabase = 4;
-	variableMappings = 5;
+	folder = 1;
+	namespaceNodesetStore = 2;
+	hiveConfigurationStore = 3;
+	namespaceDatabaseStore = 4;
+	variableMappingsStore = 5;
 }
 
 //Revisions
 enum RevisionTypeEnum {
-	unknownRevision = 0;
+	undefinedRevision = 0;
 	namespaceNodesetRevision = 1;
 	hiveConfigurationRevision = 2;
 	namespaceDatabaseRevision = 3;
@@ -134,7 +136,7 @@ message UploadContentRequest {
 message NamespaceCompareRequest {
 	string baseRevisionId = 1;
 	string compareRevisionId = 2;
-	ConfigProjectTypeEnum configProjectType = 3;
+	RevisionTypeEnum revisionType = 3;
 	bool excludeValueSourceAttributes = 4;
 }
 
@@ -402,4 +404,40 @@ enum ChangeTextType {
 	inserted = 2;
 	imaginary = 3;
 	modified = 4;
+}
+
+message CrEventInfo {
+	CrEventType type = 1;
+	repeated NodeId pathToNode = 2;
+}
+
+enum CrEventType {
+	nodeCreated = 0;
+	nodeUpdated = 1;
+	nodeDeleted = 2;
+	hiveConfigurationStoreCreated = 3;
+	hiveConfigurationStoreUpdated = 4;
+	hiveConfigurationStoreDeleted = 5;
+	variableMappingsStoreCreated = 6;
+	variableMappingsStoreUpdated = 7;
+	variableMappingsStoreDeleted = 8;
+	namespaceNodesetStoreCreated = 9;
+	namespaceNodesetStoreUpdated = 10;
+	namespaceNodesetStoreDeleted = 11;
+	namespaceDatabaseStoreCreated = 12;
+	namespaceDatabaseStoreUpdated = 13;
+	namespaceDatabaseStoreDeleted = 14;
+	hiveConfigurationRevisionCreated = 15;
+	hiveConfigurationRevisionUpdated = 16;
+	hiveConfigurationRevisionDeleted = 17;
+	variableMappingsRevisionCreated = 18;
+	variableMappingsRevisionUpdated = 19;
+	variableMappingsRevisionDeleted = 20;
+	namespaceNodesetRevisionCreated = 21;
+	namespaceNodesetRevisionUpdated = 22;
+	namespaceNodesetRevisionDeleted = 23;
+	namespaceDatabaseRevisionCreated = 24;
+	namespaceDatabaseRevisionUpdated = 25;
+	namespaceDatabaseRevisionDeleted = 26;
+	unknown = 27;
 }
