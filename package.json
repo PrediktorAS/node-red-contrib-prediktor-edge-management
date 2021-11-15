@@ -18,7 +18,7 @@
     "license": "Apache-2.0",
     "node-red": {
         "nodes": {
-            "ping-namespace": "src/nodes/ping-namespace.js",
+            "ping": "src/nodes/ping.js",
             "restore-namepace": "src/nodes/restore-namespace.js",
             "restore-variable-mappings": "src/nodes/restore-variable-mappings.js",
             "prediktor-edge-management": "src/nodes/prediktor-edge-management.js"
