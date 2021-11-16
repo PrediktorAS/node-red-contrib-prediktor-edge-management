@@ -59,7 +59,7 @@
   </div>
   <div class="form-row">
     <label for="node-input-namespaceUri"><i class="fa fa-tag"></i> Namespace URI</label>
-    <input type="text" id="node-input-namespaceUri" placeholder="http://bkk.no/Sites/Dale">
+    <input type="text" id="node-input-namespaceUri" placeholder="http://example.com/Sites/Site">
   </div>
   <div class="form-row">
     <label for="node-input-revisionId"><i class="fa fa-tag"></i> Revision Id</label>
@@ -107,14 +107,14 @@
     ConfigRepoURI should have the following format:
     cr://&lt;ip addr&gt;:&lt;port&gt;
   </p>
-  Fields that can be overridden
+  <b>Allowed input</b>
   <ul>
-    <li>configRepoUri</li>
-    <li>namespaceUri</li>
-    <li>revisionId</li>
-    <li>checkMethods</li>
-    <li>overrideErrors</li>
-    <li>isNodeSetChanges</li>
-    <li>hiveName</li>
+    <li><code>msg.configRepoUri</code> The URI of the Config Repository Server (cr://&lt;ip addr&gt;:&lt;port&gt;)</li>
+    <li><code>msg.namespaceUri</code> The URI of the Namespace (http://example.com/Sites/Site)</li>
+    <li><code>msg.revisionId</code> The Revision Node Id you want to restore from</li>
+    <li><code>msg.checkMethods</code> An array of string that explains which methods to use</li>
+    <li><code>msg.overrideErrors</code> A boolean that indicates if you want to overide errors</li>
+    <li><code>msg.isNodeSetChanges</code> A boolean that indicates if this is a NodeSet file or a NodeSet Changes file</li>
+    <li><code>msg.hiveName</code> The string name of the Hive</li>
   </ul>
 </script>

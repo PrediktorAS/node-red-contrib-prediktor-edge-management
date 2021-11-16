@@ -1,6 +1,6 @@
 let utils = require('../utils/grpc');
 module.exports = function(RED) {
-  function PingNamespaceNode(config) {
+  function PingService(config) {
     RED.nodes.createNode(this, config);
     var node = this;
     this.server = RED.nodes.getNode(config.server);
@@ -15,5 +15,5 @@ module.exports = function(RED) {
       });
     });
   }
-  RED.nodes.registerType("ping-namespace", PingNamespaceNode);
+  RED.nodes.registerType("ping", PingService);
 }

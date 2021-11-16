@@ -1,7 +1,7 @@
 var helper = require("node-red-node-test-helper");
-var pingNamespace = require("../src/nodes/ping-namespace.js");
+var pingNamespace = require("../src/nodes/ping.js");
 
-describe('ping-namespace Node', function() {
+describe('ping Node', function() {
 
   afterEach(function() {
     helper.unload();
@@ -10,7 +10,7 @@ describe('ping-namespace Node', function() {
   it('should be loaded', function(done) {
     var flow = [{
       id: "n2",
-      type: "ping-namespace",
+      type: "ping",
       name: "The One Name",
     }];
 
