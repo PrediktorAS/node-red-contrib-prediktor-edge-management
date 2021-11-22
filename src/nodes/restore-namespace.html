@@ -16,14 +16,11 @@
       configRepoUri: {
         value: ""
       },
-      namespaceUri: {
-        value: ""
-      },
       revisionId: {
         value: ""
       },
       checkMethods: {
-        value: ""
+        value: []
       },
       overrideErrors: {
         value: ""
@@ -56,10 +53,6 @@
   <div class="form-row">
     <label for="node-input-configRepoUri"><i class="fa fa-tag"></i> Config Repo URI</label>
     <input type="text" id="node-input-configRepoUri" placeholder="cr://localhost:8237">
-  </div>
-  <div class="form-row">
-    <label for="node-input-namespaceUri"><i class="fa fa-tag"></i> Namespace URI</label>
-    <input type="text" id="node-input-namespaceUri" placeholder="http://example.com/Sites/Site">
   </div>
   <div class="form-row">
     <label for="node-input-revisionId"><i class="fa fa-tag"></i> Revision Id</label>
@@ -110,7 +103,6 @@
   <b>Allowed input</b>
   <ul>
     <li><code>msg.configRepoUri</code> The URI of the Config Repository Server (cr://&lt;ip addr&gt;:&lt;port&gt;)</li>
-    <li><code>msg.namespaceUri</code> The URI of the Namespace (http://example.com/Sites/Site)</li>
     <li><code>msg.revisionId</code> The Revision Node Id you want to restore from</li>
     <li><code>msg.checkMethods</code> An array of string that explains which methods to use</li>
     <li><code>msg.overrideErrors</code> A boolean that indicates if you want to overide errors</li>

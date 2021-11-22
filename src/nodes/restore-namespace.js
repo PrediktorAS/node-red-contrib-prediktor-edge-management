@@ -5,7 +5,6 @@ module.exports = function(RED) {
     var node = this;
     this.server = RED.nodes.getNode(config.server);
     this.configRepoUri = config.configRepoUri;
-    this.namespaceUri = config.namespaceUri;
     this.revisionId = config.revisionId;
     this.checkMethods = config.checkMethods;
     this.overrideErrors = config.overrideErrors;
@@ -15,7 +14,7 @@ module.exports = function(RED) {
     node.on('input', function(msg) {
       let restoreNamespaceRequest = {
         configRepoUri: msg.configRepoUri || node.configRepoUri,
-        namespaceUri: msg.namespaceUri || node.namespaceUri,
+        namespaceUri: '',
         revisionId: msg.revisionId || config.revisionId,
         checkMethods: msg.checkMethods || config.checkMethods,
         overrideErrors: msg.overrideErrors || config.overrideErrors,
@@ -27,8 +26,14 @@ module.exports = function(RED) {
       const client = utils.getClient(url);
 
       client.restoreNamespace(restoreNamespaceRequest, function(err, data) {
+
         msg.payload = data;
-        msg.error = err;
+        if(err == null && !data?.result?.success) {
+          msg.error = data.result?.error;
+        }
+        else {
+          msg.error = err;
+        }
         node.send(msg);
       });
     });

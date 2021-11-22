@@ -23,8 +23,14 @@ module.exports = function(RED) {
       const client = utils.getClient(url);
 
       client.restoreVariableMappings(restoreVariableMappingsRequest, function(err, data) {
+
         msg.payload = data;
-        msg.error = err;
+        if(err == null && !data?.success) {
+          msg.error = data.error;
+        }
+        else {
+          msg.error = err;
+        }
         node.send(msg);
       });
     });
