@@ -25,12 +25,7 @@ module.exports = function(RED) {
       client.restoreVariableMappings(restoreVariableMappingsRequest, function(err, data) {
 
         msg.payload = data;
-        if(err == null && !data?.success) {
-          msg.error = data.error;
-        }
-        else {
-          msg.error = err;
-        }
+        msg.error = (err == null && !data?.success) ? data.error : err;
         node.send(msg);
       });
     });
