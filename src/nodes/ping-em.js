@@ -15,5 +15,5 @@ module.exports = function(RED) {
       });
     });
   }
-  RED.nodes.registerType("ping", PingService);
+  RED.nodes.registerType("ping-em", PingService);
 }
