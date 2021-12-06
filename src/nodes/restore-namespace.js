@@ -28,7 +28,7 @@ module.exports = function(RED) {
       client.restoreNamespace(restoreNamespaceRequest, function(err, data) {
 
         msg.payload = data;
-        msg.error = (err == null && !data?.success) ? data.error : err;
+        msg.error = (err == null && !data?.result?.success) ? data.result.error : err;
         node.send(msg);
       });
     });
