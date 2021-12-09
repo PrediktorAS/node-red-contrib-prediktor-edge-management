@@ -7,31 +7,43 @@ package PrediktorCommon;
 
 // Shared messages for Prediktor gRPC services.
 
+// Message of bytes, typically used for streaming binary content
 message ByteStream {
 	bytes bytes = 1;
 }
 
+// Array of strings
 message StringArray {
 	repeated string arr = 1;
 }
 
+// Array of results
 message ResultArray {
 	repeated Result results = 1;
 }
 
+// The result of an operation
 message Result {
-	bool success = 1;
-	string error = 2;
-	string errorDetails = 3;
-	int32 errorCode = 4;
+	bool success = 1;			// True if operation was successful
+	string error = 2;			// Error message if operation was unsuccessful
+	string errorDetails = 3;	// Detailed error message (may be empty) if operation was unsuccessful
+	int32 errorCode = 4;		// Error code if operation was unsuccessful
 }
 
+// Wrapper for a boolean value
 message BooleanReply {
 	bool value = 1;
 }
 
+// Message for a string result
 message StringResult {
 	string value = 1;
+	Result result = 2;
+}
+
+// Message for a string result
+message StringArrayResult {
+	StringArray value = 1;
 	Result result = 2;
 }
 
@@ -89,4 +101,12 @@ message Property {
 message PropertiesWriteRequest {
 	string Id = 1;
 	Properties Properties = 2;
+}
+
+// Types of events
+enum EventType {
+	undefined = 0;
+	created = 1;	// Node created
+	updated = 2;	// Node updated
+	deleted = 3;	// Node deleted
 }
