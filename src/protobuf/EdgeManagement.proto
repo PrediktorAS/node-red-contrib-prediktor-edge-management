@@ -16,8 +16,6 @@ service EdgeManagement {
 
   //Upload a namespace nodeset from a Hive instance to Configuration Respository.
   rpc uploadNamespace (UploadNamespaceRequest) returns (PrediktorCommon.Result);
-  //Upload a namespace db-file from a Hive instance. (TODO: deprecate this apis spesific version)
-  rpc uploadNamespaceDb (UploadNamespaceRequest) returns (PrediktorCommon.Result);
 
   //Compare a namespace backup from Configuration Respository with a running Hive's namespace
   rpc compareNamespaces (NamespaceCompareRequest) returns (stream ConfigurationRepository.NamespaceCompareResult);
@@ -25,7 +23,6 @@ service EdgeManagement {
   //Restore a namespace backup from Configuration Respository to a Hive
   rpc restoreNamespace (RestoreNamespaceRequest) returns (PrediktorCommon.StringResult);
 
-  
   //Upload a Hive configuration backup from a running Hive instance.
   rpc uploadHiveConfig (UploadHiveConfigRequest) returns (PrediktorCommon.Result);
 
@@ -45,6 +42,13 @@ service EdgeManagement {
   //Restore a Variable Mappings backup from Configuration Respository to a namespace in a Hive
   rpc restoreVariableMappings(RestoreVariableMappingsRequest) returns (PrediktorCommon.Result);
 
+  //Get the OPC UA NamespaceArray for an edge
+  rpc getNamespaceArray(NamespaceArrayRequest) returns (PrediktorCommon.StringArrayResult);
+
+}
+
+message NamespaceArrayRequest {
+	string hiveName = 1;
 }
 
 message RestoreVariableMappingsRequest {

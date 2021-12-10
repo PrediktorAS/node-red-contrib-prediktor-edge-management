@@ -11,260 +11,318 @@ package ConfigurationRepository;
 // The Configuration Repository Service definition.
 service ConfigurationRepository {
 
+  // Convenience method to test for server connection
   rpc ping (google.protobuf.Empty) returns (google.protobuf.StringValue);
+  // Get info about the API, version, vendor etc.
   rpc info(google.protobuf.Empty) returns (ConfigurationRepositoryDetails);
 
+  // Create a new node beneath another node. 
   rpc createNode (NodeRequest) returns (NodeResponse);
+  // Update a node. 
   rpc updateNode (NodeRequest) returns (PrediktorCommon.Result);
+  // Get subnodes for a node
   rpc getNodes (GetNodesRequest) returns (GetNodesResponse);
+  // Get details for a node
   rpc getNode (NodeId) returns (NodeDetail);
+  // Delete a node
   rpc deleteNode (NodeId) returns (PrediktorCommon.Result);
 
+  // Upload a binary content file to a Revision
   rpc uploadBinaryContent (stream UploadContentRequest) returns (PrediktorCommon.Result);
+  // Upload a text content file to a Revision
   rpc uploadTextContent (stream UploadContentRequest) returns (PrediktorCommon.Result);
 
+  // Download a binary content file from a Revision
   rpc downloadBinaryContent (NodeId) returns (stream PrediktorCommon.ByteStream);
+  // Download a text content file from a Revision
   rpc downloadTextContent (NodeId) returns (stream PrediktorCommon.StringArray);
 
+  // Compare two Namespace revisions
   rpc compareNamespaces (NamespaceCompareRequest) returns (stream NamespaceCompareResult);
+  // Compare two Hive Config revisions
   rpc compareHiveConfig (HiveConfigCompareRequest) returns (stream HiveConfigCompareResult);
+  // Compare two Variable Mapping revisions
   rpc compareVariableMappings (RevisionCompareRequest) returns (stream CompareVariableMappingsResult);
 
+  // Subscribe to get events on Add/Delete/Update
   rpc subscribe (google.protobuf.Empty) returns (stream CrEventInfo);
 
 }
 
+// Id of a node
 message NodeId {
 	string id = 1;
 }
 
+// Array of nodeIds
 message NodeIds {
 	repeated NodeId ids = 1;
 	PrediktorCommon.Result result = 2;
 }
 
 message NodeRequest { 
-	NodeId parentId = 1;
-	NodeId id = 2;
-	string name = 3;
-	string description = 4;
-	oneof data {
-		NodeData nodeData = 7;
-		RevisionData revisionData = 8;
+	NodeId parentId = 1;	// Id of parent (required by createNode)
+	NodeId id = 2;			// Id of node (required by updateNode)
+	string name = 3;		// Name of node
+	string description = 4;	// Description of node
+	oneof data {			// Define either NodeData for Folder/Store or RevisionData for a revision
+		NodeData nodeData = 7;			// When creating/updating a Folder or Store
+		RevisionData revisionData = 8;	// When creating/updating a Revision
 	}
 }
 
+// createNode response
 message NodeResponse{
-	NodeId nodeId = 1;
-	PrediktorCommon.Result result = 2;
+	NodeId nodeId = 1;					// Id of newly created node
+	PrediktorCommon.Result result = 2;	// Result of create operation. Check result.success to see if the operation was successful.
 }
 
 message GetNodesRequest {
-	NodeId parentNodeId = 1;
-	int32 pageNo = 2;
-	int32 pageSize = 3;
+	NodeId parentNodeId = 1;	// Subnodes for this node will be returned
+	int32 pageNo = 2;			// Pagination page number
+	int32 pageSize = 3;			// Pagination page size
 }
 
+// getNodes response
 message GetNodesResponse {
-	NodeId parentId = 1;
-	repeated NodeDetail subNodes = 2;
-	int32 prevPage = 3;
-	int32 nextPage = 4;
-	int32 pageSize = 5;
-	int32 totalCount = 6;
-	PrediktorCommon.Result result = 7;
+	NodeId parentId = 1;				// Id of parent node
+	repeated NodeDetail subNodes = 2;	// Array of detailed info of subnodes
+	int32 prevPage = 3;					// Pagination, prevPage number
+	int32 nextPage = 4;					// Pagination, nextPage number
+	int32 pageSize = 5;					// Pagination, page size
+	int32 totalCount = 6;				// Pagination, total number of pages
+	PrediktorCommon.Result result = 7;	// Result of operation
 }
 
+// Details about a node
 message NodeDetail {
-	string id = 1;
-	string name = 2;
-	string description = 3;
-	google.protobuf.Timestamp date = 4;
-	PrediktorCommon.Result result = 5;
-	oneof data {
-		NodeData nodeData = 7;
-		RevisionData revisionData = 8;
+	NodeId parentId = 1;				// Parent node id. Well be empty if root.
+	NodeId id = 2;						// Id of node
+	string name = 3;					// Name of node
+	string description = 4;				// Description of node
+	google.protobuf.Timestamp date = 5;	// Date when node was created
+	PrediktorCommon.Result result = 6;	// Result of operation
+	oneof data {						// nodeData or revisionData will be returned, dependent of the nature of the node
+		NodeData nodeData = 7;			// Node is Folder or Store.
+		RevisionData revisionData = 8;	// Node is Revision
 	}
 }
 
+// Data about a Folder or a Store
 message NodeData {
 	NodeTypeEnum type = 1;
 }
 
+// Data about a Revision
 message RevisionData {
 	RevisionTypeEnum type = 1;
-	string version = 2;
-	string modelVersion = 3;
-	google.protobuf.Timestamp publicationDate = 4;
-	string backupSetId = 5;
+	string version = 2;			// Version of revision
+	string modelVersion = 3;	// ModelVersion, applicable for Namespace Nodeset
+	google.protobuf.Timestamp publicationDate = 4; // Namespace Nodeset PublicationDate
 }
 
-//Nodes (folders) and Stores
+//Node types Folders and Stores
 enum NodeTypeEnum {
 	undefined = 0;
-	folder = 1;
-	namespaceNodesetStore = 2;
-	hiveConfigurationStore = 3;
-	namespaceDatabaseStore = 4;
-	variableMappingsStore = 5;
+	folder = 1;					// Folder
+	namespaceNodesetStore = 2;	// Namespace Nodeset Store
+	hiveConfigurationStore = 3;	// Hive Configuration store
+	variableMappingsStore = 5;	// Variable Mapping Store
 }
 
-//Revisions
+//Revision types
 enum RevisionTypeEnum {
 	undefinedRevision = 0;
-	namespaceNodesetRevision = 1;
-	hiveConfigurationRevision = 2;
-	namespaceDatabaseRevision = 3;
-	variableMappingsRevision = 4;
+	namespaceNodesetRevision = 1;	// Namespace Nodeset
+	hiveConfigurationRevision = 2;	// Hive Configuration
+	variableMappingsRevision = 4;	// Variable Mapping
 }
 
+// Information about the Config Repository service
 message ConfigurationRepositoryDetails {
-	string version = 1;
-	string minVersion = 2;
-	string vendor = 3;
-	string url = 4;
+	string version = 1;		// Current version
+	string minVersion = 2;	// Minimum version supported by this service
+	string vendor = 3;		// Name of the vendor of this service
+	string url = 4;			// Where to find information about the vendor
 }
 
+// Upload file content message
 message UploadContentRequest {
 	oneof request {
-		NodeId revisionId = 1;
-		PrediktorCommon.ByteStream binaryChunk = 2;
-		PrediktorCommon.StringArray textChunk = 3;
+		NodeId revisionId = 1;						// Id of revision to upload to
+		PrediktorCommon.ByteStream binaryChunk = 2;	// A chunk of the file for a binary file
+		PrediktorCommon.StringArray textChunk = 3;	// A chunk of the file for a text file
 	}
 }
 
+// A request to compare two Namespace revisions
 message NamespaceCompareRequest {
-	string baseRevisionId = 1;
-	string compareRevisionId = 2;
-	RevisionTypeEnum revisionType = 3;
-	bool excludeValueSourceAttributes = 4;
+	NodeId baseRevisionId = 1;				// Base revisions, compareRevision is compared to this one
+	NodeId compareRevisionId = 2;			// This revision is compared to the base revision
+	RevisionTypeEnum revisionType = 3;		// Revision type
+	bool excludeValueSourceAttributes = 4;	// Include where a data variable gets its value from (recommended value = true)
 }
 
+// A request to compare two Revisions
 message RevisionCompareRequest {
-	string baseRevisionId = 1;
-	string compareRevisionId = 2;
+	NodeId baseRevisionId = 1;
+	NodeId compareRevisionId = 2;
 }
 
+// A request to compare two Hive Configuration Revisions
 message HiveConfigCompareRequest {
-	string baseRevisionId = 1;
-	string compareRevisionId = 2;
-	string InstanceName = 3;
+	NodeId baseRevisionId = 1;		// Base revisions, compareRevision is compared to this one
+	NodeId compareRevisionId = 2;	// This revision is compared to the base revision
+	string InstanceName = 3;		// Name of Hive instance
 }
 
+// Event message describing an Create/Delete/Update change in the repository.
+message CrEventInfo {
+	PrediktorCommon.EventType eventType = 1;	// Type of event, Create/Delete/Update
+	repeated NodeId pathToNode = 2;				// Path of ids from root, down to the node this event is for.
+	oneof sourceNodeType {
+		NodeTypeEnum nodeType = 3;				// Type if affected node is Folder or Store
+		RevisionTypeEnum revisionType = 4;		// Type if affected node is Revision
+	}
+}
+
+// Ua NodeId and Browsename
 message IdAndBrowsename {
 	string id = 1;
 	string browsename = 2;
 }
 
+// Where a value is present
 enum ConfigValuePresence {
-	sourceAndDestination = 0;
-	onlySource = 1;
-	onlyDestination = 2;
+	sourceAndDestination = 0;	// Present in both
+	onlySource = 1;				// Present only in source
+	onlyDestination = 2;		// Present only in destination
 }
 
+// Representation of a value diff
 message ConfigValueDiff {
-	string						name = 1;
-	ConfigValuePresence			valuePresence = 2;
-	string						sourceValue = 100;
-	string						destinationValue = 101;
+	string						name = 1;				// Name of value
+	ConfigValuePresence			valuePresence = 2;		// Where it is present
+	string						sourceValue = 100;		// Value is has in source
+	string						destinationValue = 101;	// Value is has in destination
 }
 
+// Representation of a change i Windows Registry
 message RegistryConfigValueDiff {
-	string						path = 1;
-	ConfigValueDiff				diff = 10;
+	string						path = 1;	// Path in Registry
+	ConfigValueDiff				diff = 10;	// The diff
 }
 
+// Array of Windows Registry diffs
 message RegistryConfigValueDiffs {
 	repeated RegistryConfigValueDiff registryValues = 1;
 }
 
+// Representation of a diff in a Hive attribute
 message HiveAttributeValueDiff {
-	int32						attributeId = 1;
-	ConfigValueDiff				diff = 10;
+	int32						attributeId = 1;	// Id of attribute
+	ConfigValueDiff				diff = 10;			// The diff
 }
 
+// Array of diffs in Hive attributes
 message HiveAttributeValueDiffs {
 	repeated HiveAttributeValueDiff attributes = 1;
 }
 
+// Representation of diff for a Hive module item
 message HiveModuleItemConfigDiff {
-	string						name = 1;
-	ConfigValuePresence			itemPresence = 2;
-	HiveAttributeValueDiffs		attributeDiffs = 10;
+	string						name = 1;			// Name of item
+	ConfigValuePresence			itemPresence = 2;	// Where it is present
+	HiveAttributeValueDiffs		attributeDiffs = 10;// Attribute diffs
 }
 
+// Array of diffs for Hive module items
 message HiveModuleItemConfigDiffs {
 	repeated HiveModuleItemConfigDiff Items = 10;
 }
 
+// Representation of diffs for a Hive Module
 message HiveModuleConfigDiff {
 	oneof diff {
-		string						name = 1;
-		ConfigValuePresence			valuePresence = 2;
-		RegistryConfigValueDiffs	registryDiffs = 10;
-		HiveAttributeValueDiffs		moduleDiffs = 20;
-		HiveModuleItemConfigDiffs	itemDiffs = 30;
+		string						name = 1;			// Name of Module
+		ConfigValuePresence			valuePresence = 2;	// Where it is present
+		RegistryConfigValueDiffs	registryDiffs = 10;	// Diffs in Windows Registry
+		HiveAttributeValueDiffs		moduleDiffs = 20;	// Diffs in the modules attributes
+		HiveModuleItemConfigDiffs	itemDiffs = 30;		// Diffs for the modules items
 	}
 }
 
+// Array of diffs for a Hive Modules
 message HiveModuleConfigDiffs {
 	repeated HiveModuleConfigDiff modules = 1;
 }
 
+// Message for errors
 message ErrorInfo {
 	string error = 1;
 	string errorDetails = 2;
 }
 
+// Representation of a diff for a Hive
 message HiveConfigCompareResult {
 	oneof result {
-		string						name = 1;
-		HiveModuleConfigDiffs		moduleDiffs = 10;
-		RegistryConfigValueDiffs	registryDiffs = 20;
-		ErrorInfo					errorInfo = 30;
+		string						name = 1;			// Name of Hive
+		bool						hasDifferences = 2; // True if there are differences present
+		HiveModuleConfigDiffs		moduleDiffs = 10;	// Diffs for module
+		RegistryConfigValueDiffs	registryDiffs = 20; // Diffs for Windows Registry
+		ErrorInfo					errorInfo = 30;		// Error presentation
 	}
 }
 
+// Representation of a diff for an attribute
 message ModifiedAttribute {
-	uint32 attributeId = 1;
-	string oldValue = 2;
-	string newValue = 3;
+	uint32 attributeId = 1;	// Id of attribute
+	string oldValue = 2;	// Old value (base)
+	string newValue = 3;	// New value (compared)
 }
 
+
+// Representation of a diff for some value
 message ModifiedValue {
-	string valueName = 1;
-	string oldValue = 2;
-	string newValue = 3;
+	string valueName = 1;	// Name
+	string oldValue = 2;	// Old value (base)	
+	string newValue = 3;	// New value (compared)
 }
 
+// Representation of a namespace
 message ModifiedNamespace {
-	int32 idx = 1;
+	int32 idx = 1;				
 	bool autoUpdate = 2;
 	string modelVersion = 3;
 	google.protobuf.Timestamp publicationDate = 4;
 	google.protobuf.Timestamp lastModified = 5;
 }
 
+// Where a namespace index in present in a compare result
 message NsIndexPresence {
-	uint32 nsIndex = 1;
-	int32 presentIn = 2;
+	uint32 nsIndex = 1;		// Namespace index
+	int32 presentIn = 2;	// 0 = Both, 1 = Compare, 2 = Base
 }
 
+// Ua QualifiedName
 message QualifiedName {
 	uint32 namespaceIndex = 1;
 	string name = 2;
 }
 
+// Ua LocalizedText
 message LocalizedText {
      SemanticsLocale locale = 1;
      string text = 2;
 }
 
+// Ua SemanticsLocale
 message SemanticsLocale {
 	string language = 1;
     string region = 2;
 }
 
+// Representation of an Ua Reference 
 message ReferenceDescription {
 	string sourceId = 1;
 	QualifiedName sourceBrowseName = 2;
@@ -275,35 +333,43 @@ message ReferenceDescription {
 	bool isHierarchical = 7;
 }
 
+// Map of namespaces and where they are present in a compare result
 message NamespacesMap {
 	map<string, NsIndexPresence> namespacesMap = 1;
 }
 
+// Modified nodes in a Namespace compare result
 message ModifiedNode {
 	IdAndBrowsename idAndBrowsename = 1;
 	ModifiedAttributes modifiedAttribute = 2;
 }
 
+// Array of ModifiedNodes
 message ModifiedNodes {
 	repeated ModifiedNode modifiedNodes = 1;
 }
 
+// Array of modifiedAttributes
 message ModifiedAttributes {
 	repeated ModifiedAttribute modifiedAttrs = 1;
 }
 
+// Array of ModifiedValues
 message ModifiedValues {
 	repeated ModifiedValue modifiedVals = 1;
 }
 
+// Array of ReferenceDescriptions
 message ReferenceDescriptions {
 	repeated ReferenceDescription referenceDescrs = 1;
 }
 
+// Array of SemTypeMembers
 message SemTypeMembers {
 	repeated SemTypeMember members = 1;
 }
 
+// Ua semantic type member
 message SemTypeMember {
 	int64 parentIndex = 1;
 	bool isRoot = 2;
@@ -311,86 +377,75 @@ message SemTypeMember {
 	SemProperties properties = 4;
 }
 
+// Ua properties (a subset)
 message SemProperties {
 	SemPropertyLocalizedText displyNameProp = 1;
 	SemPropertyQualifiedName qualifiedNameProp = 2;
 	SemPropertyLocalizedText descriptionProp = 3;
 }
 
+// Ua QualifiedName property
 message SemPropertyQualifiedName {
 	int32 id = 1;
 	QualifiedName browsename = 2;
 	bool isReadOnly = 3;
 }
 
+// Ua LocalizedText propery
 message SemPropertyLocalizedText {
 	int32 id = 1;
 	LocalizedText value = 2;
 	bool isReadOnly = 3;
 }
 
-
-
+// Map of modified namespaces, key is namespace uri
 message ModifiedNameses {
 	map<string, ModifiedNamespace> modNamespaces = 1;
 }
 
-message ModifiedNameseValues {
+// Map of modified namespaces and the modified values
+message ModifiedNamespaceValues {
 	map<string, ModifiedValues> modNamespacesValues = 1;
 }
 
+// The result of a namespace compare
 message NamespaceCompareResult {
 	oneof result {
-		NamespacesMap namespaces = 1;
-		ModifiedNodes modifiedNodes  = 2;
-		ReferenceDescriptions newReferences = 3;
-		ReferenceDescriptions deletedReferences = 4;
-		ModifiedNameses newNamespaces = 5;
-		ModifiedNameses deletedNamespaces = 6;
-		ModifiedNameseValues modifiedNamespaces = 7;
-		SemTypeMembers newNodes = 8;
-		SemTypeMembers deletedNodes = 9;
-		bool hasDifferences = 10;
-		bool success = 11;
-		string error = 12;
-		string errorDetails = 13;
+		NamespacesMap namespaces = 1;					// Map of namespaces and which compare sets (base, compare) are present
+		ModifiedNodes modifiedNodes  = 2;				// Nodes (instances, types) that are modified
+		ReferenceDescriptions newReferences = 3;		// References that are added
+		ReferenceDescriptions deletedReferences = 4;	// References that are deleted
+		ModifiedNameses newNamespaces = 5;				// Namespaces that are added
+		ModifiedNameses deletedNamespaces = 6;			// Namespaces that are deleted
+		ModifiedNamespaceValues modifiedNamespaces = 7;	// Namespaces that are modified
+		SemTypeMembers newNodes = 8;					// Nodes (instances, types) that are added
+		SemTypeMembers deletedNodes = 9;				// Nodes (instances, types) that are deleted
+		bool hasDifferences = 10;						// True if there are differences between the two namespace versions
+		bool success = 11;								// True if operation was successful
+		string error = 12;								// Error message if operation was unsuccessful
+		string errorDetails = 13;						// Detailed error message (may be empty) if operation was unsuccessful
 	}
 }
 
-message NamespaceBackupSetsResult {
-	repeated NamespaceBackupSet backupsets = 1;
-}
 
-message ConfigurationBackupSetsResult {
-	repeated ConfigurationBackupSet backupsets = 1;
-}
-
-message NamespaceBackupSet {
-	string id = 1;
-	string name = 2;
-	int64 timestamp = 3;
-}
-
-message ConfigurationBackupSet {
-	string name = 1;
-	int64 timestamp = 2;
-}
-
+// The result of a Variable Mapping compare
 message CompareVariableMappingsResult {
 	oneof result {
-		DiffTextModel old = 1;
-		DiffTextModel new = 2;
-		bool hasDifferences = 3;
-		bool success = 10;
-		string error = 11;
+		DiffTextModel old = 1;		// Diffs for base versjon of the file
+		DiffTextModel new = 2;		// Diffs for the compare versjon of the file
+		bool hasDifferences = 3;	// True if there are differences between the two mapping files
+		bool success = 10;			// True if operation was successful
+		string error = 11;			// Error message if operation was unsuccessful
 	}
 }
 
+// Diff result for a text file
 message DiffTextModel {
 	repeated DiffTextPiece lines = 1;
 	bool hasDifferences = 2;
 }
 
+// Diff result for a line in a text file 
 message DiffTextPiece {
 	ChangeTextType type = 1;
 	int32 position = 2;
@@ -398,46 +453,11 @@ message DiffTextPiece {
 	repeated DiffTextPiece subPieces = 4;
 }
 
+// Change type for a line in a text file
 enum ChangeTextType {
 	unchanged = 0;
 	deleted = 1;
 	inserted = 2;
-	imaginary = 3;
+	imaginary = 3;	// Not present
 	modified = 4;
-}
-
-message CrEventInfo {
-	CrEventType type = 1;
-	repeated NodeId pathToNode = 2;
-}
-
-enum CrEventType {
-	nodeCreated = 0;
-	nodeUpdated = 1;
-	nodeDeleted = 2;
-	hiveConfigurationStoreCreated = 3;
-	hiveConfigurationStoreUpdated = 4;
-	hiveConfigurationStoreDeleted = 5;
-	variableMappingsStoreCreated = 6;
-	variableMappingsStoreUpdated = 7;
-	variableMappingsStoreDeleted = 8;
-	namespaceNodesetStoreCreated = 9;
-	namespaceNodesetStoreUpdated = 10;
-	namespaceNodesetStoreDeleted = 11;
-	namespaceDatabaseStoreCreated = 12;
-	namespaceDatabaseStoreUpdated = 13;
-	namespaceDatabaseStoreDeleted = 14;
-	hiveConfigurationRevisionCreated = 15;
-	hiveConfigurationRevisionUpdated = 16;
-	hiveConfigurationRevisionDeleted = 17;
-	variableMappingsRevisionCreated = 18;
-	variableMappingsRevisionUpdated = 19;
-	variableMappingsRevisionDeleted = 20;
-	namespaceNodesetRevisionCreated = 21;
-	namespaceNodesetRevisionUpdated = 22;
-	namespaceNodesetRevisionDeleted = 23;
-	namespaceDatabaseRevisionCreated = 24;
-	namespaceDatabaseRevisionUpdated = 25;
-	namespaceDatabaseRevisionDeleted = 26;
-	unknown = 27;
 }
