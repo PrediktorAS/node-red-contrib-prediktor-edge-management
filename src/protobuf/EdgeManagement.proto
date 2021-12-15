@@ -82,6 +82,19 @@ message RestoreNamespaceRequest {
 	bool overrideErrors = 5;
 	bool isNodeSetChanges = 6;
 	string hiveName = 7;
+	repeated HiveProperty hiveProperties = 8;
+}
+
+message HiveProperty {
+	int32 id = 1;
+	HivePropertyValue value = 2;
+}
+message HivePropertyValue {
+	oneof value {
+		int32 enumValue = 1;
+		bool boolValue = 2;
+		int32 intValue = 3;
+	}
 }
 
 message RestoreHiveConfigRequest {
