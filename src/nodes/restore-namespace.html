@@ -30,7 +30,16 @@
       },
       hiveName: {
         value: ""
-      }
+      },
+      assignIds: {
+        value: false
+      },
+      nameoptions: {
+        value: 3
+      },
+      nametermination: {
+        value: 1
+      },
     },
     inputs: 1,
     outputs: 1,
@@ -89,6 +98,29 @@
     <label for="node-input-hiveName"><i class="fa fa-archive"></i> Hive name</label>
     <input type="text" id="node-input-hiveName" placeholder="ApisHive">
   </div>
+  <div class="form-row">    
+    <label for="node-input-assignIds"><i class="fa fa-tag"></i> Custom node ids</label>
+    <input type="checkbox" id="node-input-assignIds" placeholder="False">
+  </div>
+  <div class="form-row">    
+    <label for="node-input-nameoptions"><i class="fa fa-tag"></i> Variable naming options</label>
+    <select id="node-input-nameoptions" placeholder="nameoptions">
+      <option value="1">Id</option>
+      <option value="2">Browsename</option>
+      <option value="3">Id and Browsename</option>
+      <option value="4">Displayname</option>
+      <option value="5">Id and Displayname</option>
+    </select>
+  </div>
+  <div class="form-row">    
+    <label for="node-input-nametermination"><i class="fa fa-tag"></i> Variable naming termination</label>
+    <select id="node-input-nametermination" placeholder="nametermination">
+      <option value="1">Parent object</option>
+      <option value="2">Naming root</option>
+      <option value="3">Objects folder</option>
+    </select>
+  </div>
+  
 </script>
 
 <script type="text/html" data-help-name="restore-namespace">
@@ -100,6 +132,9 @@
     ConfigRepoURI should have the following format:
     cr://&lt;ip addr&gt;:&lt;port&gt;
   </p>
+  <p>
+    Settings for custom node ids and variable naming will only be respected if the semantics module does not already exist.
+  </p>
   <b>Allowed input</b>
   <ul>
     <li><code>msg.configRepoUri</code> The URI of the Config Repository Server (cr://&lt;ip addr&gt;:&lt;port&gt;)</li>
@@ -108,5 +143,9 @@
     <li><code>msg.overrideErrors</code> A boolean that indicates if you want to overide errors</li>
     <li><code>msg.isNodeSetChanges</code> A boolean that indicates if this is a NodeSet file or a NodeSet Changes file</li>
     <li><code>msg.hiveName</code> The string name of the Hive</li>
+    <li><code>msg.assignIds</code> A boolean to set custom or automatic generation of node ids</li>
+    <li><code>msg.nameoptions</code> An integer, 1-5, to set the naming option for generated variables</li>
+    <li><code>msg.nametermination</code> An integer, 1-3, to set the naming termination for generated variables</li>
+    
   </ul>
 </script>
