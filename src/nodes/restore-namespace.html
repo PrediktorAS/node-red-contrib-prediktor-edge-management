@@ -31,6 +31,9 @@
       hiveName: {
         value: ""
       },
+      exchangeRate: {
+        value: 0
+      },
       assignIds: {
         value: false
       },
@@ -99,6 +102,10 @@
     <input type="text" id="node-input-hiveName" placeholder="ApisHive">
   </div>
   <div class="form-row">    
+    <label for="node-input-exchangeRate"><i class="fa fa-tag"></i> Exchange rate [ms]</label>
+    <input type="number" min="0" id="node-input-exchangeRate" placeholder="0">
+  </div>
+  <div class="form-row">    
     <label for="node-input-assignIds"><i class="fa fa-tag"></i> Custom node ids</label>
     <input type="checkbox" id="node-input-assignIds" placeholder="False">
   </div>
@@ -143,6 +150,7 @@
     <li><code>msg.overrideErrors</code> A boolean that indicates if you want to overide errors</li>
     <li><code>msg.isNodeSetChanges</code> A boolean that indicates if this is a NodeSet file or a NodeSet Changes file</li>
     <li><code>msg.hiveName</code> The string name of the Hive</li>
+    <li><code>msg.exchangeRate</code> The exchange rate in milliseconds for the 'ExternalItems' timer event. Used for updating external items values</li>
     <li><code>msg.assignIds</code> A boolean to set custom or automatic generation of node ids</li>
     <li><code>msg.nameoptions</code> An integer, 1-5, to set the naming option for generated variables</li>
     <li><code>msg.nametermination</code> An integer, 1-3, to set the naming termination for generated variables</li>
