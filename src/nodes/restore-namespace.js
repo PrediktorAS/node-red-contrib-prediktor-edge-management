@@ -26,6 +26,12 @@ module.exports = function(RED) {
         hiveProperties: []
       };
 
+      let exchRate = parseInt(msg.exchangeRate || config.exchangeRate); 
+
+      if(exchRate > 0) {
+        restoreNamespaceRequest.hiveProperties.push({ id: '100', value: {intValue: exchRate}});
+      }
+
       let assignIds = msg.assignIds || config.assignIds; 
 
       if(assignIds) {
