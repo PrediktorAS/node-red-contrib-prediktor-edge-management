@@ -10,7 +10,9 @@ module.exports = function(RED) {
     node.on('input', function(msg) {
       client.ping({}, function(err, data) {
         msg.payload = data;
-        msg.error = err;
+        msg.error = err ? err : '';
+        msg.success = err ? false : true;
+
         node.send(msg);
       });
     });
