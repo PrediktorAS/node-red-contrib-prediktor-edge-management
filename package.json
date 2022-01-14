@@ -1,6 +1,6 @@
 {
     "name": "node-red-contrib-prediktor-edge-management",
-    "version": "1.7.0",
+    "version": "1.8.0",
     "description": "A collection of nodes to communicate with Prediktor Edge Management",
     "main": "src/main.js",
     "repository": {
