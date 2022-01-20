@@ -11,12 +11,19 @@ module.exports = function(RED) {
     this.moduleName = config.moduleName;
 
     node.on('input', function(msg) {
+
+      let includeItemValues = msg.includeItemValues || config.includeItemValues;
+      let valueAttributId = 2;
+
+      let allowRestrAttrs = includeItemValues ? [valueAttributId] : [];
+
       let restoreVariableMappingsRequest = {
         configRepoUri: msg.configRepoUri || node.configRepoUri,
         revisionId: msg.revisionId || config.revisionId,
         transferEu: msg.transferEu || config.transferEu,
         hiveName: msg.hiveName || config.hiveName,
-        moduleName: msg.moduleName || config.moduleName
+        moduleName: msg.moduleName || config.moduleName,
+        allowRestrictedAttribs: allowRestrAttrs
       };
 
       const url = node.server.host + ":" + node.server.port;

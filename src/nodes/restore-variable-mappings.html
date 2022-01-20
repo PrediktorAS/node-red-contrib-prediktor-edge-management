@@ -24,6 +24,9 @@
       },
       moduleName: {
         value: ""
+      },
+      includeItemValues: {
+        value: false
       }
     },
     inputs: 1,
@@ -35,6 +38,7 @@
   });
 </script>
 
+let advancedVisible = false;
 <script type="text/html" data-template-name="restore-variable-mappings">
   <div class="form-row">
     <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
@@ -64,8 +68,27 @@
     <label for="node-input-moduleName"><i class="fa fa-archive"></i> Module name</label>
     <input type="text" id="node-input-moduleName" placeholder="ApisModule">
   </div>
+  <button onclick="toggleAdvanced()">Advanced</button>
+  <div id="advDIV" style="display: none; margin: 5px; border-style: ridge" hidden=advancedVisible>
+    <div class="form-row" style="margin: 5px; border-width: 1px">
+      <label for="node-input-includeItemValues" style="white-space: nowrap"><i class="fa fa-archive"></i> Include Item Values</label>
+      <input type="checkbox" id="node-input-includeItemValues" placeholder="False">
+    </div>
+  </div>
+  
 </script>
 
+<script>
+  function toggleAdvanced() {
+    var x = document.getElementById("advDIV");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+</script>
+  
 <script type="text/html" data-help-name="restore-variable-mappings">
   <p>Restores Variable Mappings based on an uploaded file</p>
   <h3>Details</h3>
@@ -82,6 +105,14 @@
     <li><code>msg.transferEu</code> A boolean that indicates if you want to restore the Engineering Units</li>
     <li><code>msg.hiveName</code> The string name of the Hive</li>
     <li><code>msg.moduleName</code> The string name of the Module</li>
+  </ul>
+  <i>Advanced</i>
+  <ul>
+    <li><code>msg.includeItemValues</code> Boolean to include the 'Value' column in the import file (if it exists). 
+    Default = false. 
+    The values of the items will be set if includeItemValues = true.
+    <code>Warning! Setting this input to true may have unintended consequences like changing controller setpoints</code>
+    </li>    
   </ul>
   <b>Returns</b>
   <ul>

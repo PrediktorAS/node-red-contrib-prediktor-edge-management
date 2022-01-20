@@ -51,12 +51,20 @@ message NamespaceArrayRequest {
 	string hiveName = 1;
 }
 
+// Restore variable mappings to a module in a Hive
 message RestoreVariableMappingsRequest {
+	// The uri for the Configuration Repository to fetch the file. (cr://<server>:<port>)
 	string configRepoUri = 1;
+	// Id of the revision that contains the file to restore
 	string revisionId = 2;
+	//Transfer EU (EngineeringUnit) from source items. EU of source items will be transferred to target items by adding the attribute ExtItemMetaTransfer to the target items with the value EngineeringUnit
 	bool transferEu = 3;
+	// Name of Hive to restore the mappings
 	string hiveName = 4;
+	// Name of the Hive module to restore the mappings
 	string moduleName = 5;
+	// Include item attributes that normally is not imported, id <= 5  (if they exist in the import file).
+	repeated int32 allowRestrictedAttribs = 6;
 }
 
 message UploadVariableMappingsRequest {
