@@ -38,7 +38,6 @@
   });
 </script>
 
-let advancedVisible = false;
 <script type="text/html" data-template-name="restore-variable-mappings">
   <div class="form-row">
     <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
@@ -69,7 +68,7 @@ let advancedVisible = false;
     <input type="text" id="node-input-moduleName" placeholder="ApisModule">
   </div>
   <button onclick="toggleAdvanced()">Advanced</button>
-  <div id="advDIV" style="display: none; margin: 5px; border-style: ridge" hidden=advancedVisible>
+  <div id="advDIV" style="display: none; margin: 5px; border-style: ridge">
     <div class="form-row" style="margin: 5px; border-width: 1px">
       <label for="node-input-includeItemValues" style="white-space: nowrap"><i class="fa fa-archive"></i> Include Item Values</label>
       <input type="checkbox" id="node-input-includeItemValues" placeholder="False">
