@@ -1,0 +1,56 @@
+<script type="text/javascript">
+    RED.nodes.registerType('upload-content',{
+        category: 'Prediktor Edge Management',
+        color: '#E8E6E2',
+        defaults: {
+            name: {value: ""},
+            edgeManagementUri: {value: "", type: "prediktor-edge-management"},
+            hiveName: {value: ""},
+            configRepoUri: {value: "", type: "prediktor-config-repository"},
+            storeId: {value: ""},
+            description: {value: ""},
+            version: {value: ""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "prediktor.png",
+        label: function() {
+            return this.name||"Upload Content";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="upload-content">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-edgeManagementUri"><i class="fa fa-bookmark"></i> Edge management URI</label>
+        <input type="text" id="node-input-edgeManagementUri" placeholder="Server URI (ex. localhost:5001)">
+    </div>
+    <div class="form-row">
+        <label for="node-input-hiveName"><i class="fa fa-tag"></i> Hive name</label>
+        <input type="text" id="node-input-hiveName" placeholder="Hive name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-configRepoUri"><i class="fa fa-tag"></i> Config repo URI</label>
+        <input type="text" id="node-input-configRepoUri" placeholder="Server URI (ex. localhost:5001)">
+    </div>
+    <div class="form-row">
+        <label for="node-input-storeId"><i class="fa fa-tag"></i> Store Id</label>
+        <input type="text" id="node-input-storeId" placeholder="Store Id">
+    </div>
+    <div class="form-row">
+        <label for="node-input-description"><i class="fa fa-tag"></i> Description</label>
+        <input type="text" id="node-input-description" placeholder="Description">
+    </div>
+    <div class="form-row">
+        <label for="node-input-storeId"><i class="fa fa-tag"></i> Store Id</label>
+        <input type="text" id="node-input-storeId" placeholder="Store Id">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="upload-content">
+    <p>Upload binary or text content to a predefined revision in Config Repository</p>
+  </script>
