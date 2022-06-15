@@ -22,7 +22,7 @@
             "restore-namepace": "src/nodes/restore-namespace.js",
             "restore-variable-mappings": "src/nodes/restore-variable-mappings.js",
             "prediktor-edge-management": "src/nodes/prediktor-edge-management.js",
-            "upload-content": "src/nodes/upload-content.js"
+            "upload-content-em": "src/nodes/upload-content-em.js"
         }
     },
     "dependencies": {

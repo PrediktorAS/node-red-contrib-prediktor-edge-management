@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('upload-content',{
+    RED.nodes.registerType('upload-content-em',{
         category: 'Prediktor Edge Management',
         color: '#E8E6E2',
         defaults: {
@@ -20,13 +20,13 @@
     });
 </script>
 
-<script type="text/html" data-template-name="upload-content">
+<script type="text/html" data-template-name="upload-content-em">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-edgeManagementUri"><i class="fa fa-bookmark"></i> Edge management URI</label>
+        <label for="node-input-edgeManagementUri"><i class="fa fa-tag"></i> Edge management URI</label>
         <input type="text" id="node-input-edgeManagementUri" placeholder="Server URI (ex. localhost:5001)">
     </div>
     <div class="form-row">
@@ -46,11 +46,11 @@
         <input type="text" id="node-input-description" placeholder="Description">
     </div>
     <div class="form-row">
-        <label for="node-input-storeId"><i class="fa fa-tag"></i> Store Id</label>
-        <input type="text" id="node-input-storeId" placeholder="Store Id">
+        <label for="node-input-version"><i class="fa fa-tag"></i> Version</label>
+        <input type="text" id="node-input-version" placeholder="version">
     </div>
 </script>
 
-<script type="text/html" data-help-name="upload-content">
-    <p>Upload binary or text content to a predefined revision in Config Repository</p>
+<script type="text/html" data-help-name="upload-content-em">
+    <p>Uploads content from config repo to the hive</p>
   </script>
