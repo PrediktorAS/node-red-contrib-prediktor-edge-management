@@ -27,13 +27,6 @@ module.exports = function(RED) {
             let description = msg.description || node.description;
             let version  = msg.version || node.version;
           
-            console.log("edgeManagementUri : " + edgeManagementUri);
-            console.log("hiveName : " + hiveName);
-            console.log("configRepoUri : " + configRepoUri);
-            console.log("storeId : " + storeId);
-            console.log("description : " + description);
-            console.log("version : " + version);
-
 
             let apisConfig = {
                 honeystore: false,
@@ -50,36 +43,27 @@ module.exports = function(RED) {
                 apisConfig: apisConfig
             }
 
-            console.log("apisConfig : " + apisConfig);
-            console.log("uploadHiveConfigRequest : " + uploadHiveConfigRequest);
-
-
+     
             //const url = edgeManagementUri;
             const url = node.edgeManagementUri.host + ":" + node.edgeManagementUri.port;
             const client = utils.getClient(url);
-            console.log("Shit dette funka");
 
 
             client.uploadHiveConfig(uploadHiveConfigRequest, function(err, data) {
-                console.log("shit jeg kom inn her omggg");
                 msg.payload = data;
                 msg.success = true;
                 msg.error = '';
+
         
                 if(err) {
-                    console.log("kom også inn her")
                   msg.error = err;
                   msg.success = false;
-                  console.log("kom også inn her")
                 }
                 else if(!data?.success) {
-                    console.log("kom også inn her")
                     msg.error = data.error;
                     msg.success = false;
                 }
-                console.log("kom også inn her")
                 node.send(msg);
-                console.log("kom også inn her")
             })
         });
 
