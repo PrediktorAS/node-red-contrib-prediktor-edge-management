@@ -52,7 +52,7 @@
 </script>
 
 <script type="text/html" data-help-name="upload-content-em">
-    <p>Gets a revision from a hive and uploads it to the config repo.</p>
+    <p>Gets hive configuration from a hive, creates a revision and uploads it to the config repo.</p>
     <details open>
         <b>Allowed input</b>
         <ul>
@@ -68,7 +68,7 @@
             </li>
             <li>
                 <code>msg.hiveName</code>
-                The name of the Hive the revision is fetched from.
+                The name of the Hive the hive configuration is fetched from.
             </li>
             <li>
                 <code>msg.configRepoUri</code>
@@ -95,7 +95,7 @@
         </ul>
         <b>Returns</b>
         <ul>
-            <li><code>msg.payload</code> An object containing success, error, errorDetails and errorCode</li>
+            <li><code>msg.payload</code> Status of the operation</li>
             <li><code>msg.success</code> true if operation succeeded</li>
             <li><code>msg.error</code> Error message if operation failed</li>
         </ul>
