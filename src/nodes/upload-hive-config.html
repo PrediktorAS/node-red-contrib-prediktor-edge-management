@@ -1,0 +1,103 @@
+<script type="text/javascript">
+    RED.nodes.registerType('upload-hive-config',{
+        category: 'Prediktor Edge Management',
+        color: '#E8E6E2',
+        defaults: {
+            name: {value: ""},
+            edgeManagementUri: {value: ""},
+            hiveName: {value: ""},
+            configRepoUri: {value: ""},
+            storeId: {value: ""},
+            description: {value: ""},
+            version: {value: ""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "prediktor.png",
+        label: function() {
+            return this.name||"Upload Hive Config";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="upload-hive-config">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-edgeManagementUri"><i class="fa fa-tag"></i> Edge management URI</label>
+        <input type="text" id="node-input-edgeManagementUri" placeholder="Server URI (ex. localhost:5001)">
+    </div>
+    <div class="form-row">
+        <label for="node-input-hiveName"><i class="fa fa-tag"></i> Hive name</label>
+        <input type="text" id="node-input-hiveName" placeholder="Hive name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-configRepoUri"><i class="fa fa-tag"></i> Config repo URI</label>
+        <input type="text" id="node-input-configRepoUri" placeholder="Server URI (ex. localhost:5001)">
+    </div>
+    <div class="form-row">
+        <label for="node-input-storeId"><i class="fa fa-tag"></i> Store Id</label>
+        <input type="text" id="node-input-storeId" placeholder="Store Id">
+    </div>
+    <div class="form-row">
+        <label for="node-input-description"><i class="fa fa-tag"></i> Description</label>
+        <input type="text" id="node-input-description" placeholder="Description">
+    </div>
+    <div class="form-row">
+        <label for="node-input-version"><i class="fa fa-tag"></i> Version</label>
+        <input type="text" id="node-input-version" placeholder="version">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="upload-hive-config">
+    <p>Gets hive configuration from a hive, creates a revision and uploads it to the config repo.</p>
+    <details open>
+        <b>Allowed input</b>
+        <ul>
+            <li>
+                <code>msg.edgeManagementUri</code>
+                The IP-address and port of the EdgeManagementServer.
+                <br/>
+                Examples of Uris: <br>
+                <code>
+                    localhost:5555 <br>
+                    10.51.152.2:8232
+                </code>
+            </li>
+            <li>
+                <code>msg.hiveName</code>
+                The name of the Hive the hive configuration is fetched from.
+            </li>
+            <li>
+                <code>msg.configRepoUri</code>
+                The IP-address and port of the Config Repository.
+                <br>
+                Examples of Uris: <br>
+                <code>
+                    localhost:5555 <br>
+                    10.51.152.2:8232
+                </code>
+            </li>
+            <li>
+                <code>msg.storeId</code>
+                The Id of the store where the revision is uploaded.
+            </li>
+            <li>
+                <code>msg.description</code>
+                The description of the revision that is uploaded
+            </li>
+            <li>
+                <code>msg.version</code>
+                The version of the revision that is uploaded
+            </li>
+        </ul>
+        <b>Returns</b>
+        <ul>
+            <li><code>msg.payload</code> Status of the operation</li>
+            <li><code>msg.success</code> true if operation succeeded</li>
+            <li><code>msg.error</code> Error message if operation failed</li>
+        </ul>
+    </details>
+  </script>
