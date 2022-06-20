@@ -52,7 +52,7 @@
 </script>
 
 <script type="text/html" data-help-name="upload-content-em">
-    <p>Uploads content from config repo to the hive</p>
+    <p>Gets a revision from a hive and uploads it to the config repo.</p>
     <details open>
         <b>Allowed input</b>
         <ul>
@@ -68,7 +68,7 @@
             </li>
             <li>
                 <code>msg.hiveName</code>
-                The name of the Hive the file is uploaded to.
+                The name of the Hive the revision is fetched from.
             </li>
             <li>
                 <code>msg.configRepoUri</code>
@@ -82,12 +82,7 @@
             </li>
             <li>
                 <code>msg.storeId</code>
-                The Id of the Config Store Id.
-                <br/>
-                An example of a valid Id: 
-                <code>
-                    4332f319-7164-417f-9655-480567fe2065
-                </code>
+                The Id of the store where the revision is uploaded.
             </li>
             <li>
                 <code>msg.description</code>
@@ -100,7 +95,9 @@
         </ul>
         <b>Returns</b>
         <ul>
-            <li>Nothing</li>
+            <li><code>msg.payload</code> An object containing success, error, errorDetails and errorCode</li>
+            <li><code>msg.success</code> true if operation succeeded</li>
+            <li><code>msg.error</code> Error message if operation failed</li>
         </ul>
     </details>
   </script>
