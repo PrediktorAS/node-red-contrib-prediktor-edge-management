@@ -53,4 +53,54 @@
 
 <script type="text/html" data-help-name="upload-content-em">
     <p>Uploads content from config repo to the hive</p>
+    <details open>
+        <b>Allowed input</b>
+        <ul>
+            <li>
+                <code>msg.edgeManagementUri</code>
+                The IP-address and port of the EdgeManagementServer.
+                <br/>
+                Examples of Uris: <br>
+                <code>
+                    localhost:5555 <br>
+                    10.51.152.2:8232
+                </code>
+            </li>
+            <li>
+                <code>msg.hiveName</code>
+                The name of the Hive the file is uploaded to.
+            </li>
+            <li>
+                <code>msg.configRepoUri</code>
+                The IP-address and port of the Config Repository.
+                <br>
+                Examples of Uris: <br>
+                <code>
+                    localhost:5555 <br>
+                    10.51.152.2:8232
+                </code>
+            </li>
+            <li>
+                <code>msg.storeId</code>
+                The Id of the Config Store Id.
+                <br/>
+                An example of a valid Id: 
+                <code>
+                    4332f319-7164-417f-9655-480567fe2065
+                </code>
+            </li>
+            <li>
+                <code>msg.description</code>
+                The description of the revision that is uploaded
+            </li>
+            <li>
+                <code>msg.version</code>
+                The version of the revision that is uploaded
+            </li>
+        </ul>
+        <b>Returns</b>
+        <ul>
+            <li>Nothing</li>
+        </ul>
+    </details>
   </script>
