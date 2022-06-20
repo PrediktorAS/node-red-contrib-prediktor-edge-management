@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('upload-content-em',{
+    RED.nodes.registerType('upload-hive-config',{
         category: 'Prediktor Edge Management',
         color: '#E8E6E2',
         defaults: {
@@ -15,12 +15,12 @@
         outputs:1,
         icon: "prediktor.png",
         label: function() {
-            return this.name||"Upload Content";
+            return this.name||"Upload Hive Config";
         }
     });
 </script>
 
-<script type="text/html" data-template-name="upload-content-em">
+<script type="text/html" data-template-name="upload-hive-config">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
@@ -51,7 +51,7 @@
     </div>
 </script>
 
-<script type="text/html" data-help-name="upload-content-em">
+<script type="text/html" data-help-name="upload-hive-config">
     <p>Gets hive configuration from a hive, creates a revision and uploads it to the config repo.</p>
     <details open>
         <b>Allowed input</b>

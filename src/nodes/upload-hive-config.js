@@ -1,7 +1,7 @@
 let utils = require('../utils/grpc');
 
 module.exports = function(RED) {
-    function UploadContentNode(config) {
+    function UploadHiveConfigNode(config) {
         RED.nodes.createNode(this, config);
         this.edgeManagementUri = config.edgeManagementUri;
         this.hiveName = config.hiveName;
@@ -54,5 +54,5 @@ module.exports = function(RED) {
             })
         });
     }
-    RED.nodes.registerType("upload-content-em", UploadContentNode);
+    RED.nodes.registerType("upload-hive-config", UploadHiveConfigNode);
 }
