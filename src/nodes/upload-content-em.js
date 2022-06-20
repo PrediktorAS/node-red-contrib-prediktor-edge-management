@@ -4,10 +4,9 @@ let utils = require('../utils/grpc');
 module.exports = function(RED) {
     function UploadContentNode(config) {
         RED.nodes.createNode(this, config);
-        //this.edgeManagementUri = config.edgeManagementUri;
-        this.edgeManagementUri = RED.nodes.getNode(config.edgeManagementUri);
+        this.edgeManagementUri = config.edgeManagementUri;
         this.hiveName = config.hiveName;
-        this.configRepoUri = RED.nodes.getNode(config.configRepoUri);
+        this.configRepoUri = config.configRepoUri;
         this.storeId = config.storeId;
         this.description = config.description;
         this.version = config.version;
@@ -35,7 +34,7 @@ module.exports = function(RED) {
             }
 
             let uploadHiveConfigRequest = {
-                configRepoUri: node.configRepoUri.host + ":" + node.configRepoUri.port,
+                configRepoUri: configRepoUri,
                 configName: hiveName,
                 storeId: storeId,
                 description: description,
@@ -44,8 +43,7 @@ module.exports = function(RED) {
             }
 
      
-            //const url = edgeManagementUri;
-            const url = node.edgeManagementUri.host + ":" + node.edgeManagementUri.port;
+            const url = edgeManagementUri;
             const client = utils.getClient(url);
 
 
@@ -66,11 +64,6 @@ module.exports = function(RED) {
                 node.send(msg);
             })
         });
-
-       
-
-       
     }
-
     RED.nodes.registerType("upload-content-em", UploadContentNode);
 }
