@@ -11,17 +11,13 @@ module.exports = function(RED) {
         this.version = config.version;
         let node = this;
 
-        
         this.on('input', function (msg, send) {
-
-
             let edgeManagementUri = msg.edgeManagementUri || node.edgeManagementUri;
             let hiveName = msg.hiveName || node.hiveName;
             let configRepoUri  = msg.configRepoUri || node.configRepoUri;
             let storeId = msg.storeId || node.storeId;
             let description = msg.description || node.description;
             let version  = msg.version || node.version;
-          
 
             let apisConfig = {
                 honeystore: false,
@@ -38,25 +34,22 @@ module.exports = function(RED) {
                 apisConfig: apisConfig
             }
 
-     
             const url = edgeManagementUri;
             const client = utils.getClient(url);
-
 
             client.uploadHiveConfig(uploadHiveConfigRequest, function(err, data) {
                 msg.payload = data;
                 msg.success = true;
                 msg.error = '';
 
-        
                 if(err) {
                   msg.error = err;
                   msg.success = false;
-                }
-                else if(!data?.success) {
+                } else if(!data?.success) {
                     msg.error = data.error;
                     msg.success = false;
                 }
+
                 send(msg);
             })
         });
