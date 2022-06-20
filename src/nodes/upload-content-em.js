@@ -1,4 +1,3 @@
-const { loadPackageDefinition } = require('@grpc/grpc-js');
 let utils = require('../utils/grpc');
 
 module.exports = function(RED) {
@@ -13,11 +12,8 @@ module.exports = function(RED) {
         let node = this;
 
         
-
-
-        
-       
         this.on('input', function (msg, send) {
+
 
             let edgeManagementUri = msg.edgeManagementUri || node.edgeManagementUri;
             let hiveName = msg.hiveName || node.hiveName;
@@ -61,7 +57,7 @@ module.exports = function(RED) {
                     msg.error = data.error;
                     msg.success = false;
                 }
-                node.send(msg);
+                send(msg);
             })
         });
     }
