@@ -3,11 +3,12 @@ module.exports = function(RED) {
   function PingService(config) {
     RED.nodes.createNode(this, config);
     var node = this;
-    this.server = RED.nodes.getNode(config.server);
-    const url = this.server.host + ":" + this.server.port;
-    const client = utils.getClient(url);
+    this.serverUri = config.serverUri;
 
     node.on('input', function(msg) {
+      let serverUri = msg.serverUri || node.serverUri;
+      const client = utils.getClient(serverUri);
+
       client.ping({}, function(err, data) {
         msg.payload = data;
         msg.error = err ? err : '';
