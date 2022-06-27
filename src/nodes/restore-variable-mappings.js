@@ -25,7 +25,7 @@ module.exports = function(RED) {
         allowRestrictedAttribs: allowRestrAttrs
       };
 
-      const url = serverUri;
+      const url = msg.serverUri || node.serverUri;
       const client = utils.getClient(url);
 
       client.restoreVariableMappings(restoreVariableMappingsRequest, function(err, data) {
