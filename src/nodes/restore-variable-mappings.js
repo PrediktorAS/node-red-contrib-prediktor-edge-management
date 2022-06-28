@@ -17,7 +17,7 @@ module.exports = function(RED) {
       let allowRestrAttrs = includeItemValues ? [valueAttributId] : [];
 
       let restoreVariableMappingsRequest = {
-        serverUri: msg.serverUri || node.serverUri,
+        configRepoUri: msg.configRepoUri || config.configRepoUri,
         revisionId: msg.revisionId || config.revisionId,
         transferEu: msg.transferEu || config.transferEu,
         hiveName: msg.hiveName || config.hiveName,

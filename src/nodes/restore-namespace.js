@@ -15,7 +15,7 @@ module.exports = function(RED) {
     node.on('input', function(msg) {
       
       let restoreNamespaceRequest = {
-        serverUri: msg.serverUri || node.serverUri,
+        configRepoUri: msg.configRepoUri || config.configRepoUri,
         namespaceUri: '',
         revisionId: msg.revisionId || config.revisionId,
         checkMethods: msg.checkMethods || config.checkMethods,
@@ -49,7 +49,7 @@ module.exports = function(RED) {
         restoreNamespaceRequest.hiveProperties.push({ id: '1095', value: {enumValue: nameTerm }});
       }
 
-      const url = serverUri;
+      const url = msg.serverUri || node.serverUri;
       const client = utils.getClient(url);
 
       client.restoreNamespace(restoreNamespaceRequest, {}, function(err, data) {
