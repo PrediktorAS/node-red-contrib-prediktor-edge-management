@@ -3,8 +3,7 @@ module.exports = function(RED) {
   function RestoreVariableMappingsNode(config) {
     RED.nodes.createNode(this, config);
     var node = this;
-    this.server = RED.nodes.getNode(config.server);
-    this.configRepoUri = config.configRepoUri;
+    this.serverUri = config.serverUri;
     this.revisionId = config.revisionId;
     this.transferEu = config.transferEu;
     this.hiveName = config.hiveName;
@@ -18,7 +17,7 @@ module.exports = function(RED) {
       let allowRestrAttrs = includeItemValues ? [valueAttributId] : [];
 
       let restoreVariableMappingsRequest = {
-        configRepoUri: msg.configRepoUri || node.configRepoUri,
+        configRepoUri: msg.configRepoUri || config.configRepoUri,
         revisionId: msg.revisionId || config.revisionId,
         transferEu: msg.transferEu || config.transferEu,
         hiveName: msg.hiveName || config.hiveName,
@@ -26,7 +25,7 @@ module.exports = function(RED) {
         allowRestrictedAttribs: allowRestrAttrs
       };
 
-      const url = node.server.host + ":" + node.server.port;
+      const url = msg.serverUri || node.serverUri;
       const client = utils.getClient(url);
 
       client.restoreVariableMappings(restoreVariableMappingsRequest, function(err, data) {

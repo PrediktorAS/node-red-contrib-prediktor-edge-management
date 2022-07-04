@@ -4,7 +4,7 @@
         color: '#E8E6E2',
         defaults: {
             name: {value:""},
-            server: {value: "", type: "prediktor-edge-management"}
+            serverUri: {value: ""}
         },
         inputs:1,
         outputs:1,
@@ -17,8 +17,8 @@
 
 <script type="text/html" data-template-name="ping-em">
     <div class="form-row">
-        <label for="node-input-server"><i class="fa fa-bookmark"></i> Server</label>
-        <input type="text" id="node-input-server" placeholder="Server URL (ex. localhost:5001)">
+        <label for="node-input-serverUri"><i class="fa fa-bookmark"></i> Server</label>
+        <input type="text" id="node-input-serverUri" placeholder="Server URI (ex. localhost:5001)">
     </div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
@@ -32,6 +32,16 @@
         <p>
             This is an easy way for you to test if your EDGE is active and if you can reach it.
         </p>
+    <b>Allowed input</b>
+    <ul>
+        <li>
+            <code>msg.serverUri</code>
+             The URI of the EDGE server. 
+            <br/>
+            Example: 
+            <code>localhost:7823</code>
+        </li>
+    </ul>
     <b>Returns</b>
     <ul>
         <li><code>msg.payload</code> A message from the server</li>

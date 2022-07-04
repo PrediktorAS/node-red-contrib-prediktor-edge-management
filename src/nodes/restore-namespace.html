@@ -6,12 +6,8 @@
       name: {
         value: ""
       },
-      server: {
+      serverUri: {
         value: "",
-        type: "prediktor-edge-management"
-      },
-      test: {
-        value: "test"
       },
       configRepoUri: {
         value: ""
@@ -59,8 +55,8 @@
     <input type="text" id="node-input-name" placeholder="Name">
   </div>
   <div class="form-row">
-    <label for="node-input-server"><i class="fa fa-bookmark"></i> Server</label>
-    <input type="text" id="node-input-server" placeholder="Server URL (ex. localhost:5001)">
+    <label for="node-input-serverUri"><i class="fa fa-bookmark"></i> Server Uri</label>
+    <input type="text" id="node-input-serverUri" placeholder="Server URL (ex. localhost:5001)">
   </div>
   <div class="form-row">
     <label for="node-input-configRepoUri"><i class="fa fa-tag"></i> Config Repo URI</label>
@@ -144,6 +140,7 @@
   </p>
   <b>Allowed input</b>
   <ul>
+    <li><code>msg.serverUri</code> The URI of the EDGE server. <br/>Example: <code>localhost:7823</code></li>
     <li><code>msg.configRepoUri</code> The URI of the Config Repository Server (cr://&lt;ip addr&gt;:&lt;port&gt;)</li>
     <li><code>msg.revisionId</code> The Revision Node Id you want to restore from</li>
     <li><code>msg.checkMethods</code> An array of string that explains which methods to use</li>
