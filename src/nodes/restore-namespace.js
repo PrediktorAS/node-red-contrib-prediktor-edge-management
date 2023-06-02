@@ -8,7 +8,7 @@ module.exports = function(RED) {
     this.revisionId = config.revisionId;
     this.checkMethods = config.checkMethods;
     this.overrideErrors = config.overrideErrors;
-    this.isNodeSetChanges = config.isNodeSetChanges;
+    this.useNodeSetChangesToReplace = config.useNodeSetChangesToReplace;
     this.hiveName = config.hiveName;
     this.assignIds = config.assignIds;
 
@@ -20,7 +20,7 @@ module.exports = function(RED) {
         revisionId: msg.revisionId || config.revisionId,
         checkMethods: msg.checkMethods || config.checkMethods,
         overrideErrors: msg.overrideErrors || config.overrideErrors,
-        isNodeSetChanges: msg.isNodeSetChanges || config.isNodeSetChanges,
+        useNodeSetChangesToReplace: msg.useNodeSetChangesToReplace || config.useNodeSetChangesToReplace,
         hiveName: msg.hiveName || config.hiveName,
         hiveProperties: []
       };
