@@ -21,7 +21,7 @@
       overrideErrors: {
         value: ""
       },
-      isNodeSetChanges: {
+      useNodeSetChangesToReplace: {
         value: false
       },
       hiveName: {
@@ -90,8 +90,8 @@
     <input type="checkbox" id="node-input-overrideErrors" placeholder="False">
   </div>
   <div class="form-row">
-    <label for="node-input-isNodeSetChanges"><i class="fa fa-tag"></i> Is Nodeset Changes</label>
-    <input type="checkbox" id="node-input-isNodeSetChanges" placeholder="False">
+    <label for="node-input-useNodeSetChangesToReplace"><i class="fa fa-tag"></i> Use Nodeset Changes to replace</label>
+    <input type="checkbox" id="node-input-useNodeSetChangesToReplace" placeholder="False">
   </div>
   <div class="form-row">
     <label for="node-input-hiveName"><i class="fa fa-archive"></i> Hive name</label>
@@ -145,7 +145,7 @@
     <li><code>msg.revisionId</code> The Revision Node Id you want to restore from</li>
     <li><code>msg.checkMethods</code> An array of string that explains which methods to use</li>
     <li><code>msg.overrideErrors</code> A boolean that indicates if you want to overide errors</li>
-    <li><code>msg.isNodeSetChanges</code> A boolean that indicates if this is a NodeSet file or a NodeSet Changes file</li>
+    <li><code>msg.useNodeSetChangesToReplace</code> A boolean that indicates if this is a NodeSet file or a NodeSet Changes file</li>
     <li><code>msg.hiveName</code> The string name of the Hive</li>
     <li><code>msg.exchangeRate</code> The exchange rate in milliseconds for the 'ExternalItems' timer event. Used for updating external items values</li>
     <li><code>msg.assignIds</code> A boolean to set custom or automatic generation of node ids</li>

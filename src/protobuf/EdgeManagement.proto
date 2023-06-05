@@ -1,7 +1,7 @@
 ﻿syntax = "proto3";
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
-import "ConfigurationRepository.proto";
+import "ConfigRepository.proto";
 import "PrediktorCommon.proto";
 
 option csharp_namespace = "Prediktor.EdgeManagement";
@@ -18,7 +18,7 @@ service EdgeManagement {
   rpc uploadNamespace (UploadNamespaceRequest) returns (PrediktorCommon.Result);
 
   //Compare a namespace backup from Configuration Respository with a running Hive's namespace
-  rpc compareNamespaces (NamespaceCompareRequest) returns (stream ConfigurationRepository.NamespaceCompareResult);
+  rpc compareNamespaces (NamespaceCompareRequest) returns (stream ConfigRepository.NamespaceCompareResult);
 
   //Restore a namespace backup from Configuration Respository to a Hive
   rpc restoreNamespace (RestoreNamespaceRequest) returns (PrediktorCommon.StringResult);
@@ -27,7 +27,7 @@ service EdgeManagement {
   rpc uploadHiveConfig (UploadHiveConfigRequest) returns (PrediktorCommon.Result);
 
   //Compare a configuration backup from Configuration Respository with a running Hive
-  rpc compareHiveConfig (HiveConfigCompareRequest) returns (stream ConfigurationRepository.HiveConfigCompareResult); 
+  rpc compareHiveConfig (HiveConfigCompareRequest) returns (stream ConfigRepository.HiveConfigCompareResult); 
 
   //Restore a configuration backup from Configuration Respository to a Hive
   rpc restoreHiveConfig(RestoreHiveConfigRequest) returns (PrediktorCommon.StringResult);
@@ -37,7 +37,7 @@ service EdgeManagement {
   rpc uploadVariableMappings(UploadVariableMappingsRequest) returns (PrediktorCommon.Result);
   
   //Compare a Variable Mappings backup from Configuration Respository to what is currently configured in a Hive module
-  rpc compareVariableMappings (CompareVariableMappingsRequest) returns (stream ConfigurationRepository.CompareVariableMappingsResult);
+  rpc compareVariableMappings (CompareVariableMappingsRequest) returns (stream ConfigRepository.CompareVariableMappingsResult);
 
   //Restore a Variable Mappings backup from Configuration Respository to a namespace in a Hive
   rpc restoreVariableMappings(RestoreVariableMappingsRequest) returns (PrediktorCommon.Result);
@@ -88,7 +88,7 @@ message RestoreNamespaceRequest {
 	string revisionId = 3;
 	PrediktorCommon.StringArray checkMethods = 4;
 	bool overrideErrors = 5;
-	bool isNodeSetChanges = 6;
+	bool useNodeSetChangesToReplace = 6;
 	string hiveName = 7;
 	repeated HiveProperty hiveProperties = 8;
 }
@@ -136,7 +136,7 @@ message ConfigRepoNamespaceCompare {
 	string configRepoUri = 1;
 	string revisionId = 2;
 	bool excludeValueSourceAttributes = 3;	
- 	ConfigurationRepository.RevisionTypeEnum revisionType = 4; // namespaceNodeset or namespaceDatabase
+ 	ConfigRepository.RevisionTypeEnum revisionType = 4; // namespaceNodeset or namespaceDatabase
 }
 
 message FileNamespaceCompare {
@@ -150,6 +150,11 @@ message NamespaceCompareLocallyRequest {
 	string hiveName = 3;
 }
 
+enum NameSpaceType {
+	nodeSet = 0;
+	nodeSetChanges = 1;
+}
+
 message UploadNamespaceRequest {
 	string namespaceUri = 1;
 	string configRepoUri = 2;
@@ -157,6 +162,7 @@ message UploadNamespaceRequest {
 	string description = 4;
 	string version = 5;
 	string hiveName = 6;
+	NameSpaceType nameSpaceType = 7;
 }
 
 message ApisConfigInfo {

@@ -17,7 +17,7 @@ describe('restore-namespace Node', function() {
       revisionId: "The Best Revision",
       checkMethods: "The Real Check Methods",
       overrideErrors: true,
-      isNodeSetChanges: true,
+      useNodeSetChangesToReplace: true,
       hiveName: "The Proper Hive Name"
     }];
 
@@ -29,7 +29,7 @@ describe('restore-namespace Node', function() {
       n1.should.have.property('revisionId', 'The Best Revision');
       n1.should.have.property('checkMethods', 'The Real Check Methods');
       n1.should.have.property('overrideErrors', true);
-      n1.should.have.property('isNodeSetChanges', true);
+      n1.should.have.property('useNodeSetChangesToReplace', true);
       n1.should.have.property('hiveName', 'The Proper Hive Name');
       done();
     });

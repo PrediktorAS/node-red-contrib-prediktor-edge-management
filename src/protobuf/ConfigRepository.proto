@@ -4,17 +4,17 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 import "PrediktorCommon.proto";
 
-option csharp_namespace = "Prediktor.ConfigurationRepository";
+option csharp_namespace = "Prediktor.ConfigRepository";
 
-package ConfigurationRepository;
+package ConfigRepository;
 
 // The Configuration Repository Service definition.
-service ConfigurationRepository {
+service ConfigRepository {
 
   // Convenience method to test for server connection
   rpc ping (google.protobuf.Empty) returns (google.protobuf.StringValue);
   // Get info about the API, version, vendor etc.
-  rpc info(google.protobuf.Empty) returns (ConfigurationRepositoryDetails);
+  rpc info(google.protobuf.Empty) returns (ConfigRepositoryDetails);
 
   // Create a new node beneath another node. 
   rpc createNode (NodeRequest) returns (NodeResponse);
@@ -43,6 +43,11 @@ service ConfigurationRepository {
   rpc compareHiveConfig (HiveConfigCompareRequest) returns (stream HiveConfigCompareResult);
   // Compare two Variable Mapping revisions
   rpc compareVariableMappings (RevisionCompareRequest) returns (stream CompareVariableMappingsResult);
+
+  // Retrieve the available hive config validator algorithms
+  rpc getAvailableConfigValidators (google.protobuf.Empty) returns (HiveConfigValidatorsResponse);
+  // Validate consistency of hive configuration
+  rpc validateHiveConfig(HiveConfigValidateRequest) returns (stream HiveConfigValidationIssue);
 
   // Subscribe to get events on Add/Delete/Update
   rpc subscribe (google.protobuf.Empty) returns (stream CrEventInfo);
@@ -139,7 +144,7 @@ enum RevisionTypeEnum {
 }
 
 // Information about the Config Repository service
-message ConfigurationRepositoryDetails {
+message ConfigRepositoryDetails {
 	string version = 1;		// Current version
 	string minVersion = 2;	// Minimum version supported by this service
 	string vendor = 3;		// Name of the vendor of this service
@@ -174,6 +179,48 @@ message HiveConfigCompareRequest {
 	NodeId baseRevisionId = 1;		// Base revisions, compareRevision is compared to this one
 	NodeId compareRevisionId = 2;	// This revision is compared to the base revision
 	string InstanceName = 3;		// Name of Hive instance
+}
+
+// A request to perform validation of a hive configuration
+message HiveConfigValidateRequest {
+	NodeId hiveConfigRevisionId = 1;
+	repeated string validationAlgorithms = 10;  
+}
+
+message HiveConfigValidatorsResponse {
+	repeated string algorithms = 1;
+}
+
+message ItemConnectionIssue {
+	string moduleType = 1;
+	string moduleName = 10;
+	string itemName = 20;
+	int32 itemAttribute = 30;
+	string itemConnection = 40;
+}
+
+enum EUIssueKind {
+	notFound = 0;
+}
+
+message ErrorIssue {
+	string ErrorMessage = 1;
+}
+message EUIssue {
+	string variableId = 1;
+	string euNamespaceUri = 10;
+	int32 euId = 20;
+	string euName = 30;
+	EUIssueKind issueKind = 40;
+}
+
+message HiveConfigValidationIssue {
+	string instanceName = 1;
+	oneof configIssueType {
+		ItemConnectionIssue itemConnection = 10;
+		EUIssue euDefinition = 20;
+		ErrorIssue error = 30;
+	}
 }
 
 // Event message describing an Create/Delete/Update change in the repository.
